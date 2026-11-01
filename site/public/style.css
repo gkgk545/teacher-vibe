@@ -118,6 +118,16 @@ td code { white-space: nowrap; }
 .prompt-head .where { color: var(--muted); font-size: 0.85rem; font-weight: 400; margin-left: 4px; }
 .prompt pre { margin: 0; padding: 14px; white-space: pre-wrap; word-break: break-word; font-family: inherit; font-size: 0.98rem; line-height: 1.7; }
 .prompt .pending { padding: 14px; color: var(--muted); font-style: italic; }
+.prompt .block-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 14px; border-top: 1px dashed var(--line); font-weight: 700; font-size: 0.92rem; }
+.prompt .when { margin: 0; padding: 10px 14px; border-top: 1px solid var(--line); font-size: 0.93rem; background: #fffdf6; }
+.prompt .when b { margin-right: 4px; }
+details.more { border-top: 1px solid var(--line); padding: 8px 14px; font-size: 0.93rem; }
+details.more summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+details.stuck { background: var(--yellow); border-radius: 12px; padding: 10px 14px; margin: 14px 0; }
+details.stuck > summary { cursor: pointer; font-weight: 700; }
+details.stuck h4 { margin: 1.2em 0 0.3em; font-size: 1rem; }
+details.stuck table { font-size: 0.9rem; }
+details.stuck .prompt pre { font-size: 0.92rem; }
 .copy-btn.done { background: var(--green); border-color: #9bd3ad; }
 
 /* 용어 */
@@ -126,6 +136,10 @@ td code { white-space: nowrap; }
 .term-group dl { margin: 0; }
 .term-group dt { font-weight: 700; margin-top: 10px; }
 .term-group dd { margin: 2px 0 0; color: #3d3a33; }
+.term-group dd.analogy { color: var(--muted); font-size: 0.92rem; }
+.term-group dd.analogy span { display: inline-block; background: rgba(255,255,255,0.7); border-radius: 5px; padding: 0 6px; font-size: 0.8rem; font-weight: 700; margin-right: 4px; }
+.term-notes { margin-top: 12px; font-size: 0.93rem; }
+.term-notes p { margin: 6px 0 0; }
 .term-group:nth-child(1) { background: var(--blue); }
 .term-group:nth-child(2) { background: var(--green); }
 .term-group:nth-child(3) { background: var(--yellow); }
@@ -176,4 +190,10 @@ input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 
   .flow .time { grid-column: 2; }
   .card { padding: 14px; }
   th, td { padding: 8px 9px; font-size: 0.9rem; }
+  /* 막힐 때 표는 휴대폰에서 줄마다 카드처럼 쌓는다 */
+  details.stuck table, details.stuck tbody, details.stuck tr, details.stuck td { display: block; width: 100%; }
+  details.stuck thead { display: none; }
+  details.stuck tr { border-bottom: 1px solid var(--line); padding: 6px 0; }
+  details.stuck td { border: 0; padding: 3px 10px; }
+  details.stuck td:first-child { font-weight: 700; }
 }

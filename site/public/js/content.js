@@ -1,6 +1,4 @@
-// 사이트 글 내용. {{...}} 는 정본이 나오면 채울 자리 표시다.
-//   프롬프트 P1~P8: 실습자료/프롬프트.md (글자 그대로)
-//   용어: 실습자료/용어정리.md, 막힐 때: 실습자료/막힐때.md
+// 사이트 글 내용(학교급, 연수 흐름, 내려받기). {{...}} 는 정해지면 채울 자리 표시다.
 //   꼭지 이름: 공통정보.md 3장, 슬라이드/구성안.md
 window.CONTENT = {
   title: '교사가 설계하고 AI가 만드는 수업 앱',
@@ -34,32 +32,9 @@ window.CONTENT = {
     { no: '⑦', id: 'share', name: '공유·마무리', time: '1:50–2:00', what: '게시판에 올리고 댓글, 집에서 이어 하기' },
   ],
 
-  // 복사할 프롬프트(정본: 실습자료/프롬프트.md). text는 글자 그대로 옮긴다.
-  prompts: [
-    { id: 'P1', name: '스킬 설치 요청', step: 'setup', text: '{{P1}}' },
-    { id: 'P2', name: 'grill-me 시작', step: 'plan', text: '{{P2}}' },
-    { id: 'P3', name: '기획서 파일로 남기기', step: 'plan', text: '{{P3}}' },
-    { id: 'P4', name: '제작 요청 틀', step: 'build', text: '{{P4}}' },
-    { id: 'P5', name: '수정 요청 틀', step: 'build', text: '{{P5}}' },
-    { id: 'P6', name: '커밋·되돌리기 요청', step: 'build', text: '{{P6}}' },
-    { id: 'P7', name: 'GitHub 저장소 연결·Cloudflare 배포 요청', step: 'deploy', text: '{{P7}}' },
-    { id: 'P8', name: '집에서 이어 하기', step: 'share', text: '{{P8}}' },
+  // 프롬프트·용어·막힐 때는 실습자료 정본에서 만든 js/source.js(window.SOURCE)에 있다.
+  downloads: [
+    { file: '/downloads/skills_agents.zip', label: 'skills_agents.zip', who: 'Antigravity, Codex 앱' },
+    { file: '/downloads/skills_claude.zip', label: 'skills_claude.zip', who: 'Claude 앱 Code 탭' },
   ],
-
-  // 용어 정리 네 묶음(정본: 실습자료/용어정리.md)
-  terms: [
-    { group: '대화 단위', items: [{ term: '세션', desc: '{{용어}}' }, { term: '컨텍스트', desc: '{{용어}}' }, { term: '토큰', desc: '{{용어}}' }, { term: '한도', desc: '{{용어}}' }] },
-    { group: '지침 단위', items: [{ term: '작업 폴더', desc: '{{용어}}' }, { term: '지침 파일', desc: '{{용어}}' }, { term: '스킬', desc: '{{용어}}' }] },
-    { group: '저장·배포', items: [{ term: 'git', desc: '{{용어}}' }, { term: '커밋', desc: '{{용어}}' }, { term: '저장소', desc: '{{용어}}' }, { term: '배포', desc: '{{용어}}' }] },
-    { group: '안전', items: [{ term: '권한 승인', desc: '{{용어}}' }, { term: '모델 선택', desc: '{{용어}}' }, { term: '개인정보', desc: '{{용어}}' }] },
-  ],
-
-  // 막힐 때 대처(정본: 실습자료/막힐때.md). step은 그 상황이 주로 생기는 꼭지.
-  stuck: [
-    { step: 'setup', when: '{{막힐때}}', fix: '{{막힐때}}' },
-  ],
-
-  downloads: {
-    skillsZip: '{{예비스킬zip}}',
-  },
 };

@@ -52,11 +52,12 @@
       <p>학교 Google Workspace 계정은 관리자가 막아 두었을 수 있습니다. 개인 Gmail을 씁니다.</p>
     </div>
     <h3>2. 작업 폴더를 만들고 엽니다</h3>
-    <p>바탕화면에 앱 이름으로 빈 폴더를 하나 만들고, 도구에서 그 폴더를 엽니다. 오늘 만드는 모든 파일이 이 폴더에 쌓입니다.</p>
+    <p>바탕화면에 빈 폴더(예: <code>내앱</code>)를 하나 만들고, 도구에서 그 폴더를 엽니다. 오늘 만드는 모든 파일이 이 폴더에 쌓입니다.</p>
     <h3>3. AI에게 스킬 설치를 맡깁니다</h3>
     <div data-prompts="P1"></div>
-    <p>설치가 안 되면 <a href="/downloads.html">예비 자료</a>에서 스킬 묶음을 내려받아 위 표의 스킬 폴더에 풉니다.</p>
+    <p>설치가 안 되면 <a href="/downloads.html">예비 자료</a>에서 내 도구에 맞는 스킬 묶음을 내려받아 작업 폴더에 풉니다.</p>
     <div data-stuck="setup"></div>
+    <div data-studio></div>
   </section>
 
   <section class="step" id="plan">
@@ -125,12 +126,14 @@
   </section>
 </main>
 <footer id="site-footer"></footer>
+<script src="/js/source.js"></script>
 <script src="/js/content.js"></script>
 <script src="/js/common.js"></script>
 <script>
 (function () {
   const C = window.CONTENT, S = window.SITE, el = S.el;
-  const byId = Object.fromEntries(C.prompts.map((p) => [p.id, p]));
+  const SRC = window.SOURCE;
+  const byId = Object.fromEntries(SRC.prompts.map((p) => [p.id, p]));
 
   document.getElementById('step-index').replaceChildren(...C.flow.filter((f) => !f.isBreak)
     .map((f) => el('a', { href: '#' + f.id, text: f.no + ' ' + f.name })));
@@ -140,12 +143,13 @@
   });
 
   document.querySelectorAll('[data-stuck]').forEach((box) => {
-    const items = C.stuck.filter((s) => s.step === box.dataset.stuck && !S.isPending(s.when));
-    if (!items.length) return;
-    box.replaceChildren(el('div', { class: 'note' }, [
-      el('p', {}, el('b', { text: '막힐 때' })),
-      el('ul', {}, items.map((s) => el('li', {}, [el('b', { text: s.when }), ' ', s.fix]))),
-    ]));
+    const markup = SRC.stuck[box.dataset.stuck];
+    if (!markup) return;
+    box.replaceChildren(el('details', { class: 'stuck' }, [el('summary', { text: '막힐 때' }), S.html('div', '', markup)]));
+  });
+
+  document.querySelectorAll('[data-studio]').forEach((box) => {
+    box.replaceChildren(el('details', { class: 'stuck' }, [el('summary', { text: 'Google AI Studio Build로 옮길 때' }), S.html('div', '', SRC.studio)]));
   });
 
   S.onLevel((level) => {

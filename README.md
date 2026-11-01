@@ -11,11 +11,8 @@
 
 ## 글 내용 고치기
 
-페이지 글은 `site/public/js/content.js`에 모여 있다. `{{P1}}` 같은 자리 표시는 정본이 나오면 채운다.
-
-- 프롬프트 P1~P8: `../실습자료/프롬프트.md`에서 글자 그대로
-- 용어: `../실습자료/용어정리.md`, 막힐 때: `../실습자료/막힐때.md`
-- 예비 스킬 zip: `site/public/downloads/`에 넣고 `downloads.skillsZip`에 경로를 적는다
+- 학교급, 연수 흐름, 내려받기 목록: `site/public/js/content.js`. 시연 앱 주소 `{{시연앱주소_중}}`, `{{시연앱주소_고}}`는 정해지면 채운다
+- 프롬프트 P1~P8, 용어, 막힐 때, 예비 스킬 zip: `../실습자료`의 정본에서 만든다. 정본이 바뀌면 `npm run sync`로 `site/public/js/source.js`와 `site/public/downloads/*.zip`을 다시 만들고 커밋한다(프롬프트는 코드 블록 안 글자 그대로 옮긴다)
 
 ## 게시판 쓰는 법
 

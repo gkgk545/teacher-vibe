@@ -6,7 +6,8 @@
     "db:local": "sh scripts/db-local.sh",
     "dev:site": "cd site && wrangler pages dev --port 8788 --persist-to ../.wrangler/state --d1 DB=vibe-board",
     "dev:apps": "cd apps && wrangler pages dev --port 8789 --persist-to ../.wrangler/state --d1 DB=vibe-board",
-    "db:remote": "sh scripts/wr.sh site d1 execute vibe-board --remote --file schema.sql"
+    "db:remote": "sh scripts/wr.sh site d1 execute vibe-board --remote --file schema.sql",
+    "sync": "node scripts/sync-content.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.40.0"

@@ -10,14 +10,15 @@
 <header id="site-header"></header>
 <main class="wrap">
   <h1>복사할 프롬프트</h1>
-  <p class="lead">복사 버튼을 누르고 AI 대화창에 붙여 넣습니다. 대괄호 부분은 내 앱에 맞게 바꿉니다.</p>
+  <p class="lead">복사 버튼을 누르고 AI 대화창에 붙여 넣습니다. 괄호 안 예시는 내 내용으로 바꿔 씁니다.</p>
   <div id="prompts"></div>
 </main>
 <footer id="site-footer"></footer>
+<script src="/js/source.js"></script>
 <script src="/js/content.js"></script>
 <script src="/js/common.js"></script>
 <script>
-document.getElementById('prompts').replaceChildren(...window.CONTENT.prompts.map((p) => window.SITE.promptBox(p)));
+document.getElementById('prompts').replaceChildren(...window.SOURCE.prompts.map((p) => window.SITE.promptBox(p, { showDetails: true })));
 if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
 </script>
 </body>

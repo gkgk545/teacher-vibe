@@ -117,19 +117,37 @@
 
   const STEP_NAMES = Object.fromEntries(C.flow.map((f) => [f.id, (f.no ? f.no + ' ' : '') + f.name]));
 
-  // 프롬프트 상자. 정본이 아직 없으면 '준비 중'으로 보이고 복사 버튼을 막는다.
-  function promptBox(p, { showStep = true } = {}) {
-    const pending = isPending(p.text);
-    return el('section', { class: 'prompt', id: p.id }, [
-      el('div', { class: 'prompt-head' }, [
-        el('div', { class: 'title' }, [
-          el('span', { class: 'id', text: p.id }), p.name,
-          showStep ? el('span', { class: 'where', text: STEP_NAMES[p.step] }) : null,
-        ]),
-        pending ? el('button', { type: 'button', class: 'btn small', disabled: true, text: '복사' }) : copyButton(p.text),
+  // 프롬프트 상자. 블록이 여럿이면(P6 커밋할 때 / 되돌릴 때) 블록마다 복사 버튼을 단다.
+  // when·details는 scripts/sync-content.mjs가 정본에서 만든 HTML이다.
+  function promptBox(p, { showStep = true, showDetails = false } = {}) {
+    const single = p.blocks.length === 1 && !p.blocks[0].label;
+    const head = el('div', { class: 'prompt-head' }, [
+      el('div', { class: 'title' }, [
+        el('span', { class: 'id', text: p.id }), p.name,
+        showStep ? el('span', { class: 'where', text: STEP_NAMES[p.step] }) : null,
       ]),
-      pending ? el('div', { class: 'pending', text: '문장을 준비하고 있습니다.' }) : el('pre', { text: p.text }),
+      single ? copyButton(p.blocks[0].text) : null,
     ]);
+    const blocks = p.blocks.flatMap((b) => [
+      single ? null : el('div', { class: 'block-head' }, [el('span', { text: b.label }), copyButton(b.text)]),
+      el('pre', { text: b.text }),
+    ]);
+    const when = p.when ? html('p', 'when', '<b>쓰는 때</b> ' + p.when) : null;
+    const more = showDetails && p.details
+      ? el('details', { class: 'more' }, [el('summary', { text: '도구별 차이와 더 보기' }), html('div', '', p.details)])
+      : null;
+    return el('section', { class: 'prompt', id: p.id }, [head, ...blocks, when, more]);
+  }
+
+  // 정본에서 만든 HTML을 넣고, 그 안의 복사 버튼을 살린다.
+  function html(tag, className, markup) {
+    const node = el(tag, { class: className || null });
+    node.innerHTML = markup;
+    node.querySelectorAll('[data-copy]').forEach((btn) => {
+      const text = btn.closest('.prompt').querySelector('pre').textContent;
+      btn.replaceWith(copyButton(text));
+    });
+    return node;
   }
 
   function shownText(text) { return isPending(text) ? '(준비 중)' : text; }
@@ -137,7 +155,7 @@
   window.SITE = {
     get level() { return level; },
     onLevel(fn) { listeners.push(fn); fn(level); },
-    el, copyButton, copyText, promptBox, isPending, shownText, boardHref, store, STEP_NAMES,
+    el, html, copyButton, copyText, promptBox, isPending, shownText, boardHref, store, STEP_NAMES,
   };
 
   renderHeader();

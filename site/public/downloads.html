@@ -14,20 +14,11 @@
 
   <h2>스킬 묶음</h2>
   <div class="card">
-    <p>grill-me, grilling, karpathy-guidelines 세 스킬을 한 파일로 묶었습니다.</p>
-    <p id="skills-zip"></p>
-    <h3>푸는 곳</h3>
-    <ol>
-      <li>내려받은 zip 파일을 풉니다.</li>
-      <li>나온 스킬 폴더 세 개를 작업 폴더 안 스킬 폴더로 옮깁니다.
-        <ul>
-          <li>Antigravity, Codex 앱: <code>.agents/skills/</code></li>
-          <li>Claude 앱 Code 탭: <code>.claude/skills/</code></li>
-        </ul>
-      </li>
-      <li>점으로 시작하는 폴더는 숨겨져 있습니다. 맥은 Finder에서 <code>Command</code>+<code>Shift</code>+<code>.</code>, 윈도우는 파일 탐색기 보기 메뉴의 '숨긴 항목'을 켭니다.</li>
-      <li>AI에게 "설치된 스킬 목록을 보여 줘"라고 물어 확인합니다.</li>
-    </ol>
+    <p>grill-me, grilling, karpathy-guidelines 세 스킬을 묶었습니다. 내 도구에 맞는 파일 하나를 내려받습니다.</p>
+    <div class="hero-actions" id="zips"></div>
+    <h3>쓰는 법</h3>
+    <div id="howto"></div>
+    <p class="small muted">출처: github.com/mattpocock/skills(MIT), github.com/multica-ai/andrej-karpathy-skills(MIT). 파일 내용은 원 저장소 그대로입니다.</p>
   </div>
 
   <h2>강사 시연 앱 완성본</h2>
@@ -36,15 +27,16 @@
   </div>
 </main>
 <footer id="site-footer"></footer>
+<script src="/js/source.js"></script>
 <script src="/js/content.js"></script>
 <script src="/js/common.js"></script>
 <script>
 (function () {
   const C = window.CONTENT, S = window.SITE, el = S.el;
-  const zip = C.downloads.skillsZip;
-  document.getElementById('skills-zip').replaceChildren(S.isPending(zip)
-    ? el('span', { class: 'muted', text: '파일을 준비하고 있습니다.' })
-    : el('a', { class: 'btn primary', href: zip, download: true, text: '스킬 묶음 내려받기 (zip)' }));
+  document.getElementById('zips').replaceChildren(...C.downloads.map((d) => el('a', { class: 'btn primary', href: d.file, download: d.label }, [
+    d.label, el('span', { class: 'small', style: 'font-weight:400', text: ' · ' + d.who }),
+  ])));
+  document.getElementById('howto').replaceChildren(S.html('div', '', window.SOURCE.skillsHowTo));
   S.onLevel(() => {
     const box = document.getElementById('demo');
     box.replaceChildren(...Object.values(C.levels).map((info) => el('p', {}, S.isPending(info.demoUrl)
