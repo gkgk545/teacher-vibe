@@ -14,8 +14,15 @@ const STEP_BY_MARK = { '①': 'intro', '②': 'terms', '③': 'setup', '④': 'p
 // ---- 작은 markdown 변환기(정본에 쓰인 문법만: 제목, 문단, 목록, 표, 코드 블록, 굵게, 코드, 주소)
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+const FILE_LINKS = {
+  '학운위심의.md': ['/guide.html#committee', '학운위 심의 안내'],
+  '막힐때.md': ['/guide.html', "단계별 안내의 '막힐 때'"],
+};
+
 function inline(text) {
   let s = esc(text);
+  // 참가자가 열 수 없는 정본 파일 이름은 사이트 안 해당 위치로 가는 링크로 바꾼다.
+  s = s.replace(/`([^`]+\.md)`/g, (m, file) => (FILE_LINKS[file] ? `<a href="${FILE_LINKS[file][0]}">${FILE_LINKS[file][1]}</a>` : m));
   // 붙여 넣을 문장(공백이 있고 긴 코드)에는 작은 복사 버튼을 붙인다.
   s = s.replace(/`([^`]+)`/g, (m, code) => (code.length > 25 && code.includes(' ')
     ? `<code>${code}</code> <button type="button" class="btn small copy-btn" data-copy-text="${code}">복사</button>`
