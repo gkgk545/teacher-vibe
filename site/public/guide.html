@@ -15,11 +15,10 @@
 
   <section class="step" id="intro">
     <div class="step-head"><h2>① 도입</h2><span class="time">0:00–0:10</span></div>
-    <ol>
-      <li>학생이 된 마음으로 강사의 시연 앱을 써 봅니다. <span data-demo></span></li>
-      <li>이 앱은 강사가 코드를 쓰지 않고 AI와 대화해서 만들었습니다.</li>
-      <li>오늘 두 시간 뒤에는 각자 만든 앱 하나가 게시판에 올라갑니다.</li>
-    </ol>
+    <h3>학생 입장에서 개념도 앱을 써 봅니다</h3>
+    <p><span data-demo></span></p>
+    <h3>이 앱은 교사가 말로 만들었습니다</h3>
+    <p>강사는 코드를 쓰지 않고 AI와 대화해서 이 앱을 만들었습니다. 오늘 남길 결과물은 각자 만든 앱 하나입니다.</p>
   </section>
 
   <section class="step" id="terms">
@@ -36,45 +35,43 @@
 
   <section class="step" id="setup">
     <div class="step-head"><h2>③ 준비</h2><span class="time">0:25–0:35</span></div>
-    <h3>1. 도구를 설치하고 로그인합니다</h3>
+    <h3>Antigravity를 설치하고 폴더를 엽니다</h3>
     <div class="table-wrap">
       <table>
         <thead><tr><th>누가</th><th>도구</th><th>스킬 폴더</th></tr></thead>
         <tbody>
           <tr><td>모두(무료)</td><td><a href="https://antigravity.google/download" target="_blank" rel="noopener">Google Antigravity</a><br><span class="small muted">개인 Gmail로 로그인. 만 18세 이상</span></td><td><code>.agents/skills/</code></td></tr>
-          <tr><td>Claude 유료 계정</td><td><a href="https://claude.com/download" target="_blank" rel="noopener">Claude 앱</a> Code 탭</td><td><code>.claude/skills/</code></td></tr>
-          <tr><td>ChatGPT 계정</td><td><a href="https://openai.com/codex/" target="_blank" rel="noopener">Codex 앱</a></td><td><code>.agents/skills/</code></td></tr>
+          <tr><td>Claude 유료 계정</td><td><a href="https://claude.com/download" target="_blank" rel="noopener">Claude 앱</a> Code 탭<br><span class="small muted">Pro, Max, Ultra, Team, Enterprise</span></td><td><code>.claude/skills/</code></td></tr>
+          <tr><td>ChatGPT 계정</td><td><a href="https://openai.com/codex/" target="_blank" rel="noopener">Codex 앱</a><br><span class="small muted">Free 플랜 포함</span></td><td><code>.agents/skills/</code></td></tr>
           <tr><td>설치가 막혔을 때</td><td><a href="https://aistudio.google.com/apps" target="_blank" rel="noopener">Google AI Studio Build</a><br><span class="small muted">브라우저만으로 씁니다. 스킬은 쓰지 않습니다</span></td><td>없음</td></tr>
         </tbody>
       </table>
     </div>
     <div class="note blue">
-      <p>학교 Google Workspace 계정은 관리자가 막아 두었을 수 있습니다. 개인 Gmail을 씁니다.</p>
+      <p>학교·업무용 Google 계정은 관리자가 허용해야 로그인됩니다. 개인 Gmail을 씁니다.</p>
     </div>
-    <h3>2. 작업 폴더를 만들고 엽니다</h3>
     <p>바탕화면에 빈 폴더(예: <code>내앱</code>)를 하나 만들고, 도구에서 그 폴더를 엽니다. 오늘 만드는 모든 파일이 이 폴더에 쌓입니다.</p>
-    <h3>3. AI에게 스킬 설치를 맡깁니다</h3>
+    <h3>AI에게 스킬 설치를 맡깁니다</h3>
     <div data-prompts="P1"></div>
     <p>설치가 안 되면 <a href="/downloads.html">예비 자료</a>에서 내 도구에 맞는 스킬 묶음을 내려받아 작업 폴더에 풉니다.</p>
-    <div data-stuck="setup"></div>
+    <div data-stuck="setup" data-extra="예비 스킬 묶음 쓰는 법"></div>
     <div data-studio></div>
   </section>
 
   <section class="step" id="plan">
     <div class="step-head"><h2>④ 기획</h2><span class="time">0:35–0:55</span></div>
-    <ol>
-      <li>바로 만들어 달라고 하지 않습니다. grill-me가 빈틈을 하나씩 묻게 합니다.</li>
-      <li>질문마다 AI가 추천 답을 함께 줍니다. 맞으면 그대로, 다르면 내 답을 적습니다.</li>
-      <li>대화가 끝나면 기획서를 <code>PRD.md</code> 파일로 남깁니다.</li>
-    </ol>
-    <div data-prompts="P2 P3"></div>
+    <h3>바로 만들지 말고 빈틈부터 묻게 합니다</h3>
+    <p>AI는 내 교실 사정을 모릅니다. grill-me가 빈틈을 하나씩 묻고, 질문마다 추천 답을 함께 줍니다. 맞으면 "추천대로", 다르면 내 답을 적습니다.</p>
+    <div data-prompts="P2"></div>
+    <h3>대화가 끝나면 기획서를 파일로 남깁니다</h3>
+    <div data-prompts="P3"></div>
     <div class="note pink"><p>학생 이름·성적·생활기록부 원문은 넣지 않습니다. 예시 자료는 지어낸 이름으로 만듭니다.</p></div>
     <div data-stuck="plan"></div>
   </section>
 
   <section class="step" id="break">
     <div class="step-head"><h2>쉬는 시간</h2><span class="time">0:55–1:05</span></div>
-    <p>배포에 쓸 두 곳에 가입하고 로그인해 둡니다.</p>
+    <h3>GitHub와 Cloudflare에 가입합니다</h3>
     <p>
       <a class="btn" href="https://github.com/signup" target="_blank" rel="noopener">GitHub 가입</a>
       <a class="btn" href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener">Cloudflare 가입</a>
@@ -84,30 +81,29 @@
 
   <section class="step" id="build">
     <div class="step-head"><h2>⑤ 제작</h2><span class="time">1:05–1:35</span></div>
-    <h3>카파시 원칙 네 가지</h3>
+    <h3>카파시 원칙 네 가지로 만듭니다</h3>
     <ol>
       <li>코딩 전에 생각합니다</li>
       <li>단순하게 만듭니다</li>
       <li>요청한 곳만 고칩니다</li>
       <li>목표로 검증합니다</li>
     </ol>
-    <h3>만들고, 시험하고, 한 줄씩 고칩니다</h3>
-    <ol>
-      <li>기획서를 바탕으로 만들어 달라고 요청합니다.</li>
-      <li>성공하는 입력, 실패해야 하는 입력, 애매한 입력을 하나씩 넣어 봅니다.</li>
-      <li>어긋난 곳은 실패한 입력, 기대한 반응, 고칠 규칙 한 줄로 알려 줍니다.</li>
-      <li>기능 하나가 되면 커밋합니다. 망가지면 커밋으로 되돌립니다.</li>
-    </ol>
-    <div data-prompts="P4 P5 P6"></div>
+    <div data-prompts="P4"></div>
+    <h3>성공·실패·애매한 경우로 시험합니다</h3>
+    <p>PRD.md에 적은 잘 되는 입력, 틀린 입력, 애매한 입력을 하나씩 직접 넣어 봅니다.</p>
+    <h3>어긋난 규칙 한 줄만 고치고 커밋합니다</h3>
+    <p>실패한 입력, 기대한 반응, 고칠 규칙 한 줄로 알려 줍니다. 고쳐지면 커밋합니다. 망가지면 커밋으로 되돌립니다.</p>
+    <div data-prompts="P5 P6"></div>
+    <h3>오류가 나면 문구를 그대로 보여 줍니다</h3>
+    <div data-sub="오류가 나면 문구를 그대로 보여 줍니다"></div>
     <div data-stuck="build"></div>
   </section>
 
   <section class="step" id="deploy">
     <div class="step-head"><h2>⑥ 배포</h2><span class="time">1:35–1:50</span> <span class="skip">시간이 없으면 건너뜁니다</span></div>
-    <ol>
-      <li>GitHub 저장소를 만들어 작업 폴더를 연결합니다.</li>
-      <li>Cloudflare에서 그 저장소를 배포해 주소를 받습니다.</li>
-    </ol>
+    <h3>올리기 전에 세 가지를 확인합니다</h3>
+    <div data-sub="올리기 전에 세 가지를 확인합니다"></div>
+    <h3>GitHub에 올리고 Cloudflare로 엽니다</h3>
     <div data-prompts="P7"></div>
     <div class="note green"><p>건너뛸 때는 앱의 HTML 파일을 ⑦에서 게시판에 바로 올립니다.</p></div>
     <div data-stuck="deploy"></div>
@@ -115,12 +111,16 @@
 
   <section class="step" id="share">
     <div class="step-head"><h2>⑦ 공유·마무리</h2><span class="time">1:50–2:00</span></div>
+    <h3>게시판에 올리고 동료 앱에 댓글을 답니다</h3>
     <ol>
       <li><a data-board href="/board.html">공유 게시판</a>에 들어가 연수장에서 안내한 입장 코드를 넣습니다.</li>
       <li>'앱 올리기'를 눌러 이름, 앱 이름, 교과·학년, 한 줄 소개를 적고 배포 주소나 HTML 파일을 올립니다.</li>
       <li>동료의 앱을 열어 써 보고 댓글을 남깁니다. <span class="skip">선택</span></li>
-      <li>집에서는 같은 폴더를 다시 열고 새 세션으로 이어 갑니다.</li>
     </ol>
+    <h3 id="committee">학생이 쓰는 앱은 학교운영위원회 심의를 확인합니다</h3>
+    <div data-committee></div>
+    <h3>집에서는 같은 폴더를 열어 이어 만듭니다</h3>
+    <p>같은 작업 폴더를 다시 열고 새 세션(새 대화)을 시작해 첫 메시지로 붙여 넣습니다.</p>
     <div data-prompts="P8"></div>
     <div data-stuck="share"></div>
   </section>
@@ -145,7 +145,21 @@
   document.querySelectorAll('[data-stuck]').forEach((box) => {
     const markup = SRC.stuck[box.dataset.stuck];
     if (!markup) return;
-    box.replaceChildren(el('details', { class: 'stuck' }, [el('summary', { text: '막힐 때' }), S.html('div', '', markup)]));
+    const extra = box.dataset.extra && SRC.subs[box.dataset.extra]
+      ? '<h4>' + box.dataset.extra + '</h4>' + SRC.subs[box.dataset.extra] : '';
+    box.replaceChildren(el('details', { class: 'stuck' }, [el('summary', { text: '막힐 때' }), S.html('div', '', markup + extra)]));
+  });
+
+  document.querySelectorAll('[data-sub]').forEach((box) => {
+    const markup = SRC.subs[box.dataset.sub];
+    if (markup) box.replaceChildren(S.html('div', 'sub', markup));
+  });
+
+  document.querySelectorAll('[data-committee]').forEach((box) => {
+    box.replaceChildren(
+      S.html('div', 'note pink', SRC.committee.points),
+      el('details', { class: 'more card' }, [el('summary', { text: '자세히: 무엇이 바뀌었고 무엇이 심의 대상인가' }), S.html('div', '', SRC.committee.body)]),
+    );
   });
 
   document.querySelectorAll('[data-studio]').forEach((box) => {

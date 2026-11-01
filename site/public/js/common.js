@@ -147,6 +147,11 @@
       const text = btn.closest('.prompt').querySelector('pre').textContent;
       btn.replaceWith(copyButton(text));
     });
+    node.querySelectorAll('[data-copy-text]').forEach((btn) => {
+      const area = document.createElement('textarea');
+      area.innerHTML = btn.dataset.copyText;
+      btn.replaceWith(copyButton(area.value));
+    });
     return node;
   }
 

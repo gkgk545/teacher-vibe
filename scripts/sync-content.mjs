@@ -1,4 +1,4 @@
-// 실습자료 정본(markdown)을 읽어 site/public/js/source.js 와 예비 스킬 zip을 만든다.
+// 실습자료 정본(프롬프트, 용어정리, 막힐때, 학운위심의, 예비스킬 zip)을 읽어 site/public/js/source.js 와 예비 스킬 zip을 만든다.
 // 프롬프트는 코드 블록 안 글자를 그대로 옮긴다. 정본이 바뀌면 다시 실행하고 커밋한다.
 //   사용: npm run sync   (실습자료 폴더 위치를 바꾸려면: node scripts/sync-content.mjs <실습자료 경로>)
 import { readFileSync, writeFileSync, copyFileSync, mkdirSync } from 'node:fs';
@@ -16,7 +16,10 @@ const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, 
 
 function inline(text) {
   let s = esc(text);
-  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // 붙여 넣을 문장(공백이 있고 긴 코드)에는 작은 복사 버튼을 붙인다.
+  s = s.replace(/`([^`]+)`/g, (m, code) => (code.length > 25 && code.includes(' ')
+    ? `<code>${code}</code> <button type="button" class="btn small copy-btn" data-copy-text="${code}">복사</button>`
+    : `<code>${code}</code>`));
   s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
   s = s.replace(/https?:\/\/[A-Za-z0-9._~:/?#@!$&'*+,;=%-]+[A-Za-z0-9/]/g, (url) => `<a href="${url}" target="_blank" rel="noopener">${url}</a>`);
   return s;
@@ -141,36 +144,46 @@ function parseTerms() {
   });
 }
 
-// ---- 막힐 때: 꼭지별 HTML, 예비 스킬 쓰는 법, AI Studio로 옮길 때
+// ---- 막힐 때: 꼭지별 표(stuck)와 "### " 소절(subs). 소절은 다음 "### " 또는 "| 상황" 표 앞에서 끝난다.
 function parseStuck() {
   const stuck = {};
-  let skillsHowTo = '';
+  const subs = {};
   let studio = '';
   for (const s of sections(read('막힐때.md'))) {
     if (s.title.startsWith('Google AI Studio')) { studio = markdown(s.lines); continue; }
     const step = stepOf(s.title);
     if (!step) continue;
-    // "### 예비 스킬 묶음 쓰는 법"은 예비 자료 페이지에도 따로 싣는다.
-    const start = s.lines.findIndex((l) => l.startsWith('### 예비 스킬'));
-    if (start >= 0) {
-      let end = s.lines.findIndex((l, i) => i > start && l.startsWith('### '));
-      if (end < 0) end = s.lines.length;
-      skillsHowTo = markdown(s.lines.slice(start + 1, end));
+    const main = [];
+    let sub = null;
+    for (const line of s.lines) {
+      if (line.startsWith('### ')) { sub = cleanTitle(line.slice(4)); subs[sub] = []; continue; }
+      if (sub && line.startsWith('| 상황')) sub = null;
+      (sub ? subs[sub] : main).push(line);
     }
-    stuck[step] = markdown(s.lines);
+    stuck[step] = markdown(main);
   }
-  return { stuck, skillsHowTo, studio };
+  for (const title of Object.keys(subs)) subs[title] = markdown(subs[title]);
+  return { stuck, subs, studio };
+}
+
+// ---- 학운위 심의: 1장 화면 문장(목록만), 2장 설명
+function parseCommittee() {
+  const all = sections(read('학운위심의.md'));
+  const one = all.find((s) => s.title.startsWith('1.'));
+  const two = all.find((s) => s.title.startsWith('2.'));
+  return { points: markdown(one.lines.filter((l) => l.startsWith('- '))), body: markdown(two.lines) };
 }
 
 const prompts = parsePrompts();
 const terms = parseTerms();
-const { stuck, skillsHowTo, studio } = parseStuck();
+const { stuck, subs, studio } = parseStuck();
+const committee = parseCommittee();
 
 const downloads = join(ROOT, 'site', 'public', 'downloads');
 mkdirSync(downloads, { recursive: true });
 for (const zip of ['skills_agents.zip', 'skills_claude.zip']) copyFileSync(join(SRC, '예비스킬', zip), join(downloads, zip));
 
-const data = { syncedAt: new Date().toISOString().slice(0, 10), prompts, terms, stuck, skillsHowTo, studio };
+const data = { syncedAt: new Date().toISOString().slice(0, 10), prompts, terms, stuck, subs, studio, committee };
 const header = '// 자동 생성: scripts/sync-content.mjs 가 ../실습자료 정본에서 만든다. 직접 고치지 않는다.\n';
 writeFileSync(join(ROOT, 'site', 'public', 'js', 'source.js'), `${header}window.SOURCE = ${JSON.stringify(data, null, 1)};\n`);
-console.log(`프롬프트 ${prompts.length}개(블록 ${prompts.reduce((n, p) => n + p.blocks.length, 0)}), 용어 묶음 ${terms.length}개, 막힐 때 꼭지 ${Object.keys(stuck).join(', ')}, zip 2개`);
+console.log(`프롬프트 ${prompts.length}개(블록 ${prompts.reduce((n, p) => n + p.blocks.length, 0)}), 용어 묶음 ${terms.length}개, 막힐 때 꼭지 ${Object.keys(stuck).join(', ')}, 소절 ${Object.keys(subs).join(' / ')}, zip 2개`);

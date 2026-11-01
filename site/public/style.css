@@ -123,6 +123,9 @@ td code { white-space: nowrap; }
 .prompt .when b { margin-right: 4px; }
 details.more { border-top: 1px solid var(--line); padding: 8px 14px; font-size: 0.93rem; }
 details.more summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+details.more.card { padding: 10px 14px; margin: 10px 0; box-shadow: none; }
+.note ul { margin: 0; padding-left: 1.2em; }
+.step .sub table { font-size: 0.92rem; }
 details.stuck { background: var(--yellow); border-radius: 12px; padding: 10px 14px; margin: 14px 0; }
 details.stuck > summary { cursor: pointer; font-weight: 700; }
 details.stuck h4 { margin: 1.2em 0 0.3em; font-size: 1rem; }
@@ -191,9 +194,9 @@ input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 
   .card { padding: 14px; }
   th, td { padding: 8px 9px; font-size: 0.9rem; }
   /* 막힐 때 표는 휴대폰에서 줄마다 카드처럼 쌓는다 */
-  details.stuck table, details.stuck tbody, details.stuck tr, details.stuck td { display: block; width: 100%; }
-  details.stuck thead { display: none; }
-  details.stuck tr { border-bottom: 1px solid var(--line); padding: 6px 0; }
-  details.stuck td { border: 0; padding: 3px 10px; }
-  details.stuck td:first-child { font-weight: 700; }
+  :is(details.stuck, .sub) :is(table, tbody, tr, td) { display: block; width: 100%; }
+  :is(details.stuck, .sub) thead { display: none; }
+  :is(details.stuck, .sub) tr { border-bottom: 1px solid var(--line); padding: 6px 0; }
+  :is(details.stuck, .sub) td { border: 0; padding: 3px 10px; }
+  :is(details.stuck, .sub) td:first-child { font-weight: 700; }
 }
