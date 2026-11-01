@@ -34,17 +34,20 @@ npm run db:local   # dev 서버를 한 번 띄운 뒤 표 만들기
 
 ## 배포
 
-이 폴더 경로에 한글이 있으면 wrangler가 `wrangler.toml`을 찾지 못한다. 그래서 `scripts/wr.sh`가 영문 임시 경로로 복사한 뒤 실행한다.
+GitHub 저장소 `gkgk545/teacher-vibe`의 `main`에 push하면 Cloudflare Pages가 두 프로젝트를 자동으로 배포한다.
+
+| Pages 프로젝트 | 주소 | 루트 폴더 | 빌드 명령 | 출력 폴더 |
+| --- | --- | --- | --- | --- |
+| teacher-vibe | https://teacher-vibe.pages.dev | `site` | 없음 | `public` |
+| teacher-vibe-apps | https://teacher-vibe-apps.pages.dev | `apps` | 없음 | `public` |
+
+D1 연결은 각 폴더의 `wrangler.toml`이 정한다(대시보드에서 따로 넣지 않는다). 입장 코드와 관리 코드는 비밀 값으로 넣는다.
+
+이 폴더 경로에 한글이 있으면 wrangler가 `wrangler.toml`을 찾지 못한다. 그래서 로컬에서 원격 작업을 할 때는 `scripts/wr.sh`가 영문 임시 경로로 복사한 뒤 실행한다.
 
 ```sh
-npx wrangler login
-npx wrangler d1 create vibe-board          # 나온 database_id를 site/·apps/의 wrangler.toml에 적는다
-npm run db:remote                          # 표 만들기
-npx wrangler pages project create <사이트프로젝트> --production-branch main
-npx wrangler pages project create <파일프로젝트> --production-branch main
-npm run deploy:apps
-npm run deploy:site
-sh scripts/wr.sh site pages secret put ENTRY_CODE_MIDDLE --project-name <사이트프로젝트>   # HIGH, ADMIN_CODE도
+npm run db:remote    # 원격 D1에 표 만들기(처음 한 번)
+sh scripts/wr.sh site pages secret put ENTRY_CODE_MIDDLE --project-name teacher-vibe   # ENTRY_CODE_HIGH, ADMIN_CODE도
 ```
 
-비밀 값을 바꾼 뒤에는 `npm run deploy:site`로 다시 배포해야 반영된다.
+비밀 값을 바꾼 뒤에는 다시 배포해야 반영된다(대시보드의 배포 다시 시도, 또는 새 커밋 push).

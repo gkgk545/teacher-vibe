@@ -1,9 +1,9 @@
 # 올린 HTML 파일 전용 Pages 프로젝트. 게시판과 출처를 나누려고 따로 둔다.
-name = "vibe-yeonsu-apps"
+name = "teacher-vibe-apps"
 pages_build_output_dir = "public"
 compatibility_date = "2026-10-01"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "vibe-board"
-database_id = "local-dev-placeholder"
+database_id = "8d47421b-af97-4eca-94f9-a707ab2c0d81"
