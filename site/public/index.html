@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>바이브코딩 연수</title>
+<meta name="description" content="교사가 설계하고 AI가 만드는 수업 앱: 중·고등 교원 바이브코딩 연수 안내와 공유 게시판">
+<link rel="stylesheet" href="/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%8F%EF%B8%8F%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<header id="site-header"></header>
+<main class="wrap">
+  <section class="hero">
+    <span class="day" id="hero-day"></span>
+    <h1 id="hero-title"></h1>
+    <p class="lead" id="hero-sub"></p>
+    <p>오늘 가져갈 결과물은 <b>내가 만든 앱 하나</b>입니다.</p>
+    <div class="hero-actions">
+      <a class="btn primary big" id="hero-board" href="/board.html">공유 게시판 열기</a>
+      <a class="btn big" href="/guide.html">단계별 안내</a>
+      <a class="btn big" href="/prompts.html">복사할 프롬프트</a>
+    </div>
+  </section>
+
+  <h2>오늘 흐름</h2>
+  <ol class="flow" id="flow"></ol>
+
+  <h2>시연 앱</h2>
+  <div class="card">
+    <p id="demo-name"></p>
+    <p id="demo-link"></p>
+  </div>
+</main>
+<footer id="site-footer"></footer>
+<script src="/js/content.js"></script>
+<script src="/js/common.js"></script>
+<script>
+(function () {
+  const C = window.CONTENT, S = window.SITE, el = S.el;
+  document.getElementById('hero-title').textContent = C.title;
+  document.getElementById('hero-sub').textContent = C.subtitle;
+  document.getElementById('flow').replaceChildren(...C.flow.map((f) => el('li', { class: f.isBreak ? 'break' : null }, [
+    el('a', { href: '/guide.html#' + f.id }, [
+      el('span', { class: 'no', text: f.no || '·' }),
+      el('span', { class: 'name' }, [f.name, el('span', { class: 'what', text: f.what })]),
+      el('span', { class: 'time', text: f.time }),
+    ]),
+  ])));
+  S.onLevel((level) => {
+    const info = C.levels[level];
+    document.getElementById('hero-day').textContent = info.label + ' 교원 연수 · ' + info.date;
+    document.getElementById('hero-board').href = S.boardHref();
+    document.getElementById('hero-board').textContent = info.label + ' 공유 게시판 열기';
+    document.getElementById('demo-name').textContent = info.demo;
+    const link = document.getElementById('demo-link');
+    link.replaceChildren(S.isPending(info.demoUrl)
+      ? el('span', { class: 'muted', text: '주소는 연수 날 화면으로 안내합니다.' })
+      : el('a', { class: 'btn primary', href: info.demoUrl, target: '_blank', rel: 'noopener', text: '시연 앱 열기' }));
+  });
+})();
+</script>
+</body>
+</html>

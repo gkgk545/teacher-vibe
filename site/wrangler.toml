@@ -1,0 +1,17 @@
+# 연수 사이트 + 공유 게시판 Pages 프로젝트
+name = "vibe-yeonsu"
+pages_build_output_dir = "public"
+compatibility_date = "2026-10-01"
+
+[vars]
+FILES_ORIGIN = "https://vibe-yeonsu-apps.pages.dev"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "vibe-board"
+database_id = "local-dev-placeholder"
+
+# 입장 코드·관리 코드는 비밀 값으로 둔다(저장소에 넣지 않는다).
+#   npx wrangler pages secret put ENTRY_CODE_MIDDLE --project-name <사이트프로젝트>
+#   npx wrangler pages secret put ENTRY_CODE_HIGH   --project-name <사이트프로젝트>
+#   npx wrangler pages secret put ADMIN_CODE        --project-name <사이트프로젝트>

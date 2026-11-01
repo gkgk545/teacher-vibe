@@ -1,0 +1,16 @@
+{
+  "name": "vibecoding-yeonsu-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "db:local": "sh scripts/db-local.sh",
+    "dev:site": "cd site && wrangler pages dev --port 8788 --persist-to ../.wrangler/state --d1 DB=vibe-board",
+    "dev:apps": "cd apps && wrangler pages dev --port 8789 --persist-to ../.wrangler/state --d1 DB=vibe-board",
+    "deploy:site": "sh scripts/wr.sh site pages deploy --branch main",
+    "deploy:apps": "sh scripts/wr.sh apps pages deploy --branch main",
+    "db:remote": "sh scripts/wr.sh site d1 execute vibe-board --remote --file schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.40.0"
+  }
+}

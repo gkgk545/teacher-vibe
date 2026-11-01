@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>용어 정리 · 바이브코딩 연수</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header id="site-header"></header>
+<main class="wrap">
+  <h1>용어 정리</h1>
+  <p class="lead">AI 코딩 앱에서 자주 보는 말을 네 묶음으로 모았습니다.</p>
+  <div class="term-groups" id="terms"></div>
+</main>
+<footer id="site-footer"></footer>
+<script src="/js/content.js"></script>
+<script src="/js/common.js"></script>
+<script>
+(function () {
+  const S = window.SITE, el = S.el;
+  document.getElementById('terms').replaceChildren(...window.CONTENT.terms.map((g) => el('section', { class: 'card term-group' }, [
+    el('h3', { text: g.group }),
+    el('dl', {}, g.items.flatMap((t) => [el('dt', { text: t.term }), el('dd', { text: S.shownText(t.desc) })])),
+  ])));
+})();
+</script>
+</body>
+</html>

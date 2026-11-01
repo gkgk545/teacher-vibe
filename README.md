@@ -1,0 +1,50 @@
+# 바이브코딩 연수 사이트
+
+중·고등 교원 바이브코딩 연수(2026-11-11 중학교, 11-16 고등학교)의 안내 사이트와 공유 게시판.
+
+| 폴더 | Cloudflare Pages 프로젝트 | 하는 일 |
+| --- | --- | --- |
+| `site/` | 본 사이트 | 안내 페이지(`public/`), 게시판 API(`functions/api/`) |
+| `apps/` | 파일 주소 | 게시판에 올린 HTML을 `/f/<id>`로 연다. 게시판과 출처가 달라서 올린 스크립트가 게시판을 건드리지 못한다 |
+
+두 프로젝트가 D1 데이터베이스 `vibe-board` 하나를 함께 쓴다(`schema.sql`). 글·댓글·HTML 파일(1MB 이하, `.html`만)이 모두 D1에 들어간다.
+
+## 글 내용 고치기
+
+페이지 글은 `site/public/js/content.js`에 모여 있다. `{{P1}}` 같은 자리 표시는 정본이 나오면 채운다.
+
+- 프롬프트 P1~P8: `../실습자료/프롬프트.md`에서 글자 그대로
+- 용어: `../실습자료/용어정리.md`, 막힐 때: `../실습자료/막힐때.md`
+- 예비 스킬 zip: `site/public/downloads/`에 넣고 `downloads.skillsZip`에 경로를 적는다
+
+## 게시판 쓰는 법
+
+- 주소: `/board.html?b=middle`(중학교), `/board.html?b=high`(고등학교)
+- 입장 코드가 있어야 보고 쓸 수 있다. 코드는 비밀 값(`ENTRY_CODE_MIDDLE`, `ENTRY_CODE_HIGH`)이라 저장소에 없다
+- 관리 모드: 주소 끝에 `&admin`을 붙이고 관리 코드(`ADMIN_CODE`)를 넣으면 글·댓글 삭제와 게시판 비우기 버튼이 나온다
+
+## 로컬 실행
+
+```sh
+npm install
+printf 'ENTRY_CODE_MIDDLE=1111\nENTRY_CODE_HIGH=1116\nADMIN_CODE=admin-local\nFILES_ORIGIN=http://localhost:8789\n' > site/.dev.vars
+npm run dev:apps   # 다른 창에서 npm run dev:site
+npm run db:local   # dev 서버를 한 번 띄운 뒤 표 만들기
+```
+
+## 배포
+
+이 폴더 경로에 한글이 있으면 wrangler가 `wrangler.toml`을 찾지 못한다. 그래서 `scripts/wr.sh`가 영문 임시 경로로 복사한 뒤 실행한다.
+
+```sh
+npx wrangler login
+npx wrangler d1 create vibe-board          # 나온 database_id를 site/·apps/의 wrangler.toml에 적는다
+npm run db:remote                          # 표 만들기
+npx wrangler pages project create <사이트프로젝트> --production-branch main
+npx wrangler pages project create <파일프로젝트> --production-branch main
+npm run deploy:apps
+npm run deploy:site
+sh scripts/wr.sh site pages secret put ENTRY_CODE_MIDDLE --project-name <사이트프로젝트>   # HIGH, ADMIN_CODE도
+```
+
+비밀 값을 바꾼 뒤에는 `npm run deploy:site`로 다시 배포해야 반영된다.
