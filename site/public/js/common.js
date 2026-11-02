@@ -3,10 +3,10 @@
   const C = window.CONTENT;
   const NAV = [
     { href: '/', label: '첫 화면' },
-    { href: '/guide.html', label: '단계별 안내' },
-    { href: '/prompts.html', label: '복사할 프롬프트' },
-    { href: '/terms.html', label: '용어 정리' },
-    { href: '/downloads.html', label: '예비 자료' },
+    { href: '/guide', label: '단계별 안내' },
+    { href: '/prompts', label: '복사할 프롬프트' },
+    { href: '/terms', label: '용어 정리' },
+    { href: '/downloads', label: '예비 자료' },
   ];
   const listeners = [];
 
@@ -55,7 +55,7 @@
     return node;
   }
 
-  function boardHref() { return '/board.html?b=' + level; }
+  function boardHref() { return '/board?b=' + level; }
 
   function renderHeader() {
     const header = document.getElementById('site-header');

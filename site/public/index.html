@@ -17,9 +17,9 @@
     <p class="lead" id="hero-sub"></p>
     <p>오늘 가져갈 결과물은 <b>내가 만든 앱 하나</b>입니다.</p>
     <div class="hero-actions">
-      <a class="btn primary big" id="hero-board" href="/board.html">공유 게시판 열기</a>
-      <a class="btn big" href="/guide.html">단계별 안내</a>
-      <a class="btn big" href="/prompts.html">복사할 프롬프트</a>
+      <a class="btn primary big" id="hero-board" href="/board">공유 게시판 열기</a>
+      <a class="btn big" href="/guide">단계별 안내</a>
+      <a class="btn big" href="/prompts">복사할 프롬프트</a>
     </div>
   </section>
 
@@ -41,7 +41,7 @@
   document.getElementById('hero-title').textContent = C.title;
   document.getElementById('hero-sub').textContent = C.subtitle;
   document.getElementById('flow').replaceChildren(...C.flow.map((f) => el('li', { class: f.isBreak ? 'break' : null }, [
-    el('a', { href: '/guide.html#' + f.id }, [
+    el('a', { href: '/guide#' + f.id }, [
       el('span', { class: 'no', text: f.no || '·' }),
       el('span', { class: 'name' }, [f.name, el('span', { class: 'what', text: f.what })]),
       el('span', { class: 'time', text: f.time }),

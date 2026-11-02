@@ -16,7 +16,7 @@
 
 ## 게시판 쓰는 법
 
-- 주소: `/board.html?b=middle`(중학교), `/board.html?b=high`(고등학교)
+- 주소: `/board?b=middle`(중학교), `/board?b=high`(고등학교)
 - 입장 코드가 있어야 보고 쓸 수 있다. 코드는 비밀 값(`ENTRY_CODE_MIDDLE`, `ENTRY_CODE_HIGH`)이라 저장소에 없다
 - 관리 모드: 주소 끝에 `&admin`을 붙이고 관리 코드(`ADMIN_CODE`)를 넣으면 글·댓글 삭제와 게시판 비우기 버튼이 나온다
 

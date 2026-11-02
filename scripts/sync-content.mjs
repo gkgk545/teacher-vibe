@@ -15,8 +15,8 @@ const STEP_BY_MARK = { '①': 'intro', '②': 'terms', '③': 'setup', '④': 'p
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const FILE_LINKS = {
-  '학운위심의.md': ['/guide.html#committee', '학운위 심의 안내'],
-  '막힐때.md': ['/guide.html', "단계별 안내의 '막힐 때'"],
+  '학운위심의.md': ['/guide#committee', '학운위 심의 안내'],
+  '막힐때.md': ['/guide', "단계별 안내의 '막힐 때'"],
 };
 
 function inline(text) {
