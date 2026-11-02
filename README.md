@@ -19,6 +19,7 @@
 - 주소: `/board?b=middle`(중학교), `/board?b=high`(고등학교)
 - 입장 코드가 있어야 보고 쓸 수 있다. 코드는 비밀 값(`ENTRY_CODE_MIDDLE`, `ENTRY_CODE_HIGH`)이라 저장소에 없다
 - 관리 모드: 주소 끝에 `&admin`을 붙이고 관리 코드(`ADMIN_CODE`)를 넣으면 글·댓글 삭제와 게시판 비우기 버튼이 나온다
+- 연수 뒤 닫기: `site/wrangler.toml`의 `READ_ONLY`를 `"1"`로 바꿔 push하면 보기만 되고 글쓰기·댓글이 막힌다(관리 코드는 그대로)
 
 ## 로컬 실행
 
