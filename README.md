@@ -11,7 +11,7 @@
 
 ## 글 내용 고치기
 
-- 학교급, 연수 흐름, 내려받기 목록: `site/public/js/content.js`. 시연 앱 주소 `{{시연앱주소_중}}`, `{{시연앱주소_고}}`는 정해지면 채운다
+- 학교급, 시연 앱 주소(둘러보기·만들기 모드), 연수 흐름, 내려받기 목록: `site/public/js/content.js`
 - 프롬프트 P1~P8, 용어, 막힐 때, 예비 스킬 zip: `../실습자료`의 정본에서 만든다. 정본이 바뀌면 `npm run sync`로 `site/public/js/source.js`와 `site/public/downloads/*.zip`을 다시 만들고 커밋한다(프롬프트는 코드 블록 안 글자 그대로 옮긴다)
 
 ## 게시판 쓰는 법

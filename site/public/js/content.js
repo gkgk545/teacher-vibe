@@ -1,4 +1,4 @@
-// 사이트 글 내용(학교급, 연수 흐름, 내려받기). {{...}} 는 정해지면 채울 자리 표시다.
+// 사이트 글 내용(학교급, 연수 흐름, 내려받기). {{...}} 는 정해지면 채울 자리 표시다(지금은 없음).
 //   꼭지 이름: 공통정보.md 3장, 슬라이드/구성안.md
 window.CONTENT = {
   title: '교사가 설계하고 AI가 만드는 수업 앱',
@@ -6,6 +6,7 @@ window.CONTENT = {
   instructor: '곡수초등학교 교사 이진혁',
 
   // 날짜순(고등학교 먼저). 학교급 탭도 이 순서로 보인다.
+  // demoUrl은 둘러보기 모드, demoMakeUrl은 만들기 모드(휴대폰에서는 '큰 화면에서 해 주세요'가 뜬다).
   levels: {
     high: {
       label: '고등학교',
@@ -13,7 +14,8 @@ window.CONTENT = {
       school: '효양고등학교',
       day: '2026-11-11',
       demo: "통합사회2 '인권보장과 헌법' 개념도 앱",
-      demoUrl: '{{시연앱주소_고}}',
+      demoUrl: 'https://concept-map-demo.gkgk545.workers.dev/#human-rights/explore',
+      demoMakeUrl: 'https://concept-map-demo.gkgk545.workers.dev/#human-rights/make',
     },
     middle: {
       label: '중학교',
@@ -21,7 +23,8 @@ window.CONTENT = {
       school: '안산성호중학교',
       day: '2026-11-16',
       demo: "과학 '물질의 상태 변화' 개념도 앱",
-      demoUrl: '{{시연앱주소_중}}',
+      demoUrl: 'https://concept-map-demo.gkgk545.workers.dev/#state-change/explore',
+      demoMakeUrl: 'https://concept-map-demo.gkgk545.workers.dev/#state-change/make',
     },
   },
 

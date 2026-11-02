@@ -170,9 +170,13 @@
     const info = C.levels[level];
     document.querySelectorAll('[data-board]').forEach((a) => { a.href = S.boardHref(); });
     document.querySelectorAll('[data-demo]').forEach((span) => {
-      span.replaceChildren(S.isPending(info.demoUrl)
-        ? info.demo
-        : el('a', { href: info.demoUrl, target: '_blank', rel: 'noopener', text: info.demo + ' 열기' }));
+      span.replaceChildren(...(S.isPending(info.demoUrl)
+        ? [info.demo]
+        : [
+          el('a', { href: info.demoUrl, target: '_blank', rel: 'noopener', text: info.demo + ' 열기' }), ' · ',
+          el('a', { href: info.demoMakeUrl, target: '_blank', rel: 'noopener', text: '만들기 모드로 열기' }),
+          el('span', { class: 'muted small', style: 'display:block', text: "만들기 모드는 노트북으로 엽니다. 휴대폰에서는 '큰 화면에서 해 주세요' 안내가 뜹니다." }),
+        ]));
     });
   });
 })();

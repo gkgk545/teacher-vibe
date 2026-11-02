@@ -41,7 +41,8 @@
     const box = document.getElementById('demo');
     box.replaceChildren(...Object.values(C.levels).map((info) => el('p', {}, S.isPending(info.demoUrl)
       ? [info.label + ': ' + info.demo + ' ', el('span', { class: 'muted', text: '(주소 준비 중)' })]
-      : [info.label + ': ', el('a', { href: info.demoUrl, target: '_blank', rel: 'noopener', text: info.demo })])));
+      : [info.label + ': ', el('a', { href: info.demoUrl, target: '_blank', rel: 'noopener', text: info.demo }),
+        ' · ', el('a', { href: info.demoMakeUrl, target: '_blank', rel: 'noopener', text: '만들기 모드(노트북)' })])));
   });
 })();
 </script>
