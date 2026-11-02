@@ -49,7 +49,7 @@
   ])));
   S.onLevel((level) => {
     const info = C.levels[level];
-    document.getElementById('hero-day').textContent = info.label + ' 교원 연수 · ' + info.date;
+    document.getElementById('hero-day').textContent = info.school + ' · ' + info.date;
     document.getElementById('hero-board').href = S.boardHref();
     document.getElementById('hero-board').textContent = info.label + ' 공유 게시판 열기';
     document.getElementById('demo-name').textContent = info.demo;

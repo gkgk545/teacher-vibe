@@ -22,7 +22,11 @@
     const fromUrl = params.get('level') || params.get('b');
     if (C.levels[fromUrl]) { store('level', fromUrl); return fromUrl; }
     const saved = store('level');
-    return C.levels[saved] ? saved : 'middle';
+    if (C.levels[saved]) return saved;
+    // 저장된 선택이 없으면 아직 끝나지 않은 가장 이른 연수의 학교급
+    const today = new Date().toISOString().slice(0, 10);
+    const keys = Object.keys(C.levels);
+    return keys.find((k) => C.levels[k].day >= today) || keys[keys.length - 1];
   }
 
   let level = readLevel();
