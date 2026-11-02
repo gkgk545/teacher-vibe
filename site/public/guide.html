@@ -117,6 +117,7 @@
       <li>'앱 올리기'를 눌러 이름, 앱 이름, 교과·학년, 한 줄 소개를 적고 배포 주소나 HTML 파일을 올립니다.</li>
       <li>동료의 앱을 열어 써 보고 댓글을 남깁니다. <span class="skip">선택</span></li>
     </ol>
+    <div class="note blue"><p data-board-notice></p></div>
     <h3 id="committee">학생이 쓰는 앱은 학교운영위원회 심의를 확인합니다</h3>
     <div data-committee></div>
     <h3>집에서는 같은 폴더를 열어 이어 만듭니다</h3>
@@ -154,6 +155,8 @@
     const markup = SRC.subs[box.dataset.sub];
     if (markup) box.replaceChildren(S.html('div', 'sub', markup));
   });
+
+  document.querySelectorAll('[data-board-notice]').forEach((p) => { p.textContent = C.boardNotice; });
 
   document.querySelectorAll('[data-committee]').forEach((box) => {
     box.replaceChildren(

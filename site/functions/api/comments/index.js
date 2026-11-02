@@ -1,7 +1,8 @@
-import { canEnter, json, fail, newId, clean, bumpVersion } from '../../../lib/board.js';
+import { canEnter, isAdmin, isReadOnly, json, fail, newId, clean, bumpVersion } from '../../../lib/board.js';
 
 // 댓글 달기. 본문: { post_id, name, body }
 export async function onRequestPost({ request, env }) {
+  if (isReadOnly(env) && !isAdmin(request, env)) return fail('게시판 댓글을 마쳤습니다.', 403);
   const input = await request.json().catch(() => null);
   if (!input) return fail('보낸 내용을 읽지 못했습니다.');
   const post = await env.DB.prepare('SELECT board FROM posts WHERE id = ?').bind(String(input.post_id || '')).first();

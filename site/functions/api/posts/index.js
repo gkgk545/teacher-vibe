@@ -1,5 +1,5 @@
 import {
-  BOARDS, MAX_FILE_BYTES, canEnter, isAdmin, json, fail, newId, clean, bumpVersion, fileUrl,
+  BOARDS, MAX_FILE_BYTES, canEnter, isAdmin, isReadOnly, json, fail, newId, clean, bumpVersion, fileUrl,
 } from '../../../lib/board.js';
 
 // 글 목록. ?board=middle&v=3 처럼 지난 버전을 보내면, 바뀐 것이 없을 때 목록 없이 버전만 돌려준다.
@@ -11,7 +11,8 @@ export async function onRequestGet({ request, env }) {
 
   const meta = await env.DB.prepare('SELECT version FROM board_meta WHERE board = ?').bind(board).first();
   const version = meta ? meta.version : 0;
-  if (url.searchParams.get('v') === String(version)) return json({ version, unchanged: true });
+  const readOnly = isReadOnly(env);
+  if (url.searchParams.get('v') === String(version)) return json({ version, readOnly, unchanged: true });
 
   const [posts, comments] = await env.DB.batch([
     env.DB.prepare(
@@ -29,11 +30,12 @@ export async function onRequestGet({ request, env }) {
     file_url: p.file_id ? fileUrl(env, p.file_id) : null,
     comments: byPost[p.id] || [],
   }));
-  return json({ version, posts: list });
+  return json({ version, readOnly, posts: list });
 }
 
 // 글 올리기(multipart/form-data): board, name, app_name, subject, intro, link 또는 file(.html, 1MB 이하)
 export async function onRequestPost({ request, env }) {
+  if (isReadOnly(env) && !isAdmin(request, env)) return fail('게시판 글쓰기를 마쳤습니다.', 403);
   const length = Number(request.headers.get('content-length') || 0);
   if (length > MAX_FILE_BYTES + 64 * 1024) return fail('파일은 1MB까지 올릴 수 있습니다.', 413);
 

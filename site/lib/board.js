@@ -41,6 +41,11 @@ export function canEnter(request, env, board) {
   return Boolean(expected) && code === expected;
 }
 
+// READ_ONLY 값이 있으면 글쓰기·댓글을 막는다(관리 코드는 그대로 쓸 수 있다). 연수가 끝난 뒤 게시판을 닫을 때 쓴다.
+export function isReadOnly(env) {
+  return Boolean(env.READ_ONLY);
+}
+
 export function newId(length = 10) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789';
   const bytes = crypto.getRandomValues(new Uint8Array(length));

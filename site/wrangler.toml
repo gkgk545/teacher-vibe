@@ -5,6 +5,8 @@ compatibility_date = "2026-10-01"
 
 [vars]
 FILES_ORIGIN = "https://teacher-vibe-apps.pages.dev"
+# 연수 뒤 글쓰기·댓글을 막으려면 "1"로 바꿔 push한다(보기와 관리 코드는 그대로).
+READ_ONLY = ""
 
 [[d1_databases]]
 binding = "DB"

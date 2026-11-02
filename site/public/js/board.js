@@ -106,6 +106,7 @@
     $('entry').hidden = true;
     $('board').hidden = false;
     $('board-title').textContent = label + ' 공유 게시판';
+    $('board-notice').textContent = C.boardNotice;
     $('admin-bar').hidden = !adminCode;
     version = null;
     load();
@@ -119,6 +120,7 @@
       if (data.unchanged) return;
       version = data.version;
       posts = data.posts;
+      setReadOnly(data.readOnly && !adminCode);
       requestRender();
     } catch (err) {
       if (err.status === 403) {
@@ -128,6 +130,15 @@
         showEntry('입장 코드를 다시 넣어 주세요.');
       }
     }
+  }
+
+  // 연수가 끝나 닫힌 게시판은 보기만 한다.
+  let readOnly = false;
+  function setReadOnly(value) {
+    readOnly = Boolean(value);
+    $('board-notice').textContent = readOnly ? C.boardClosedNotice : C.boardNotice;
+    $('open-compose').hidden = readOnly;
+    if (readOnly) $('compose').hidden = true;
   }
 
   function startPolling() {
@@ -163,7 +174,7 @@
         el('span', { class: 'when', text: ago(c.created_at) }),
         adminCode ? el('button', { type: 'button', class: 'btn small danger', style: 'margin-left:6px', text: '삭제', onclick: () => removeComment(c) }) : null,
       ])),
-      commentForm(p),
+      readOnly ? null : commentForm(p),
     ]);
     const toggle = el('button', {
       type: 'button', class: 'btn small', 'aria-expanded': String(open),
