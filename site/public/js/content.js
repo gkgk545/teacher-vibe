@@ -35,10 +35,10 @@ window.CONTENT = {
   // 연수 흐름(PRD 3장)
   flow: [
     { no: '①', id: 'intro', name: '도입', time: '0:00–0:15', what: '학생 입장에서 시연 앱 써 보기' },
-    { no: '②', id: 'terms', name: '용어', time: '0:15–0:30', what: '네 가지 용어 묶음' },
+    { no: '②', id: 'terms', name: '용어', time: '0:15–0:30', what: '네 가지 주제로 보는 기본 용어' },
     { no: '③', id: 'setup', name: '준비', time: '0:30–0:40', what: '도구 설치, 작업 폴더, 스킬 설치' },
     { no: '④', id: 'plan', name: '기획', time: '0:40–1:05', what: 'grill-me로 기획서 만들기' },
-    { no: '⑤', id: 'build', name: '제작', time: '1:05–1:35', what: '만들고, 시험하고, 고치고, 커밋' },
+    { no: '⑤', id: 'build', name: '제작', time: '1:05–1:35', what: '만들고, 확인하고, 고치고, 커밋' },
     { no: '⑥', id: 'deploy', name: '배포', time: '1:35–1:50', what: 'GitHub·Cloudflare 가입, 저장소 연결, 배포' },
     { no: '⑦', id: 'share', name: '공유·마무리', time: '1:50–2:00', what: '게시판에 올리고 댓글, 집에서 이어 하기' },
   ],

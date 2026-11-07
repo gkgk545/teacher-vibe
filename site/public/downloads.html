@@ -12,9 +12,9 @@
   <h1>예비 자료</h1>
   <p class="lead">AI에게 맡긴 스킬 설치가 안 될 때 씁니다.</p>
 
-  <h2>스킬 묶음</h2>
+  <h2>예비 스킬 파일(zip)</h2>
   <div class="card">
-    <p>grill-me, grilling, karpathy-guidelines 세 스킬을 묶었습니다. 내 도구에 맞는 파일 하나를 내려받습니다.</p>
+    <p>grill-me, grilling, karpathy-guidelines 스킬 세 개가 들어 있습니다. 내 도구에 맞는 파일 하나를 내려받습니다.</p>
     <div class="hero-actions" id="zips"></div>
     <h3>쓰는 법</h3>
     <div id="howto"></div>
@@ -36,7 +36,7 @@
   document.getElementById('zips').replaceChildren(...C.downloads.map((d) => el('a', { class: 'btn primary', href: d.file, download: d.label }, [
     d.label, el('span', { class: 'small', style: 'font-weight:400', text: ' · ' + d.who }),
   ])));
-  document.getElementById('howto').replaceChildren(S.html('div', '', window.SOURCE.subs['예비 스킬 묶음 쓰는 법']));
+  document.getElementById('howto').replaceChildren(S.html('div', '', window.SOURCE.subs['예비 스킬 파일(zip) 쓰는 법']));
   S.onLevel(() => {
     const box = document.getElementById('demo');
     box.replaceChildren(...Object.values(C.levels).map((info) => el('p', {}, S.isPending(info.demoUrl)
