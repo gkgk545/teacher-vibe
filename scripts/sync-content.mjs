@@ -1,4 +1,4 @@
-// 실습자료 정본(프롬프트, 용어정리, 막힐때, 학운위심의, 예비스킬 zip)을 읽어 site/public/js/source.js 와 예비 스킬 zip을 만든다.
+// 실습자료 정본(프롬프트, 용어정리, 막힐때, 예비스킬 zip)을 읽어 site/public/js/source.js 와 예비 스킬 zip을 만든다.
 // 프롬프트는 코드 블록 안 글자를 그대로 옮긴다. 정본이 바뀌면 다시 실행하고 커밋한다.
 //   사용: npm run sync   (실습자료 폴더 위치를 바꾸려면: node scripts/sync-content.mjs <실습자료 경로>)
 import { readFileSync, writeFileSync, copyFileSync, mkdirSync } from 'node:fs';
@@ -15,7 +15,6 @@ const STEP_BY_MARK = { '①': 'intro', '②': 'terms', '③': 'setup', '④': 'p
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const FILE_LINKS = {
-  '학운위심의.md': ['/guide#committee', '학운위 심의 안내'],
   '막힐때.md': ['/guide', "단계별 안내의 '막힐 때'"],
 };
 
@@ -173,24 +172,15 @@ function parseStuck() {
   return { stuck, subs, studio };
 }
 
-// ---- 학운위 심의: 1장 화면 문장(목록만), 2장 설명
-function parseCommittee() {
-  const all = sections(read('학운위심의.md'));
-  const one = all.find((s) => s.title.startsWith('1.'));
-  const two = all.find((s) => s.title.startsWith('2.'));
-  return { points: markdown(one.lines.filter((l) => l.startsWith('- '))), body: markdown(two.lines) };
-}
-
 const prompts = parsePrompts();
 const terms = parseTerms();
 const { stuck, subs, studio } = parseStuck();
-const committee = parseCommittee();
 
 const downloads = join(ROOT, 'site', 'public', 'downloads');
 mkdirSync(downloads, { recursive: true });
 for (const zip of ['skills_agents.zip', 'skills_claude.zip']) copyFileSync(join(SRC, '예비스킬', zip), join(downloads, zip));
 
-const data = { syncedAt: new Date().toISOString().slice(0, 10), prompts, terms, stuck, subs, studio, committee };
+const data = { syncedAt: new Date().toISOString().slice(0, 10), prompts, terms, stuck, subs, studio };
 const header = '// 자동 생성: scripts/sync-content.mjs 가 ../실습자료 정본에서 만든다. 직접 고치지 않는다.\n';
 writeFileSync(join(ROOT, 'site', 'public', 'js', 'source.js'), `${header}window.SOURCE = ${JSON.stringify(data, null, 1)};\n`);
 console.log(`프롬프트 ${prompts.length}개(블록 ${prompts.reduce((n, p) => n + p.blocks.length, 0)}), 용어 묶음 ${terms.length}개, 막힐 때 꼭지 ${Object.keys(stuck).join(', ')}, 소절 ${Object.keys(subs).join(' / ')}, zip 2개`);

@@ -114,8 +114,6 @@
       <li>동료의 앱을 열어 써 보고 댓글을 남깁니다. <span class="skip">선택</span></li>
     </ol>
     <div class="note blue"><p data-board-notice></p></div>
-    <h3 id="committee">학생이 쓰는 앱은 학교운영위원회 심의 대상인지 확인합니다</h3>
-    <div data-committee></div>
     <h3>집에서는 같은 폴더를 열어 이어 만듭니다</h3>
     <p>같은 작업 폴더를 다시 열고 새 세션(새 대화)을 시작해 첫 메시지로 붙여 넣습니다.</p>
     <div data-prompts="P8"></div>
@@ -153,13 +151,6 @@
   });
 
   document.querySelectorAll('[data-board-notice]').forEach((p) => { p.textContent = C.boardNotice; });
-
-  document.querySelectorAll('[data-committee]').forEach((box) => {
-    box.replaceChildren(
-      S.html('div', 'note pink', SRC.committee.points),
-      el('details', { class: 'more card' }, [el('summary', { text: '자세히: 무엇이 바뀌었고 무엇이 심의 대상인가' }), S.html('div', '', SRC.committee.body)]),
-    );
-  });
 
   document.querySelectorAll('[data-studio]').forEach((box) => {
     box.replaceChildren(el('details', { class: 'stuck' }, [el('summary', { text: 'Google AI Studio Build로 옮길 때' }), S.html('div', '', SRC.studio)]));
