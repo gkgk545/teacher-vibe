@@ -41,9 +41,9 @@
   const MAKE_NOTE = "만들기 모드는 노트북으로 엽니다. 휴대폰에서는 '큰 화면에서 해 주세요' 안내가 뜹니다.";
   document.getElementById('hero-title').textContent = C.title;
   document.getElementById('hero-sub').textContent = C.subtitle;
-  document.getElementById('flow').replaceChildren(...C.flow.map((f) => el('li', { class: f.isBreak ? 'break' : null }, [
+  document.getElementById('flow').replaceChildren(...C.flow.map((f) => el('li', {}, [
     el('a', { href: '/guide#' + f.id }, [
-      el('span', { class: 'no', text: f.no || '·' }),
+      el('span', { class: 'no', text: f.no }),
       el('span', { class: 'name' }, [f.name, el('span', { class: 'what', text: f.what })]),
       el('span', { class: 'time', text: f.time }),
     ]),

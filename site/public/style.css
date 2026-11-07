@@ -89,7 +89,6 @@ p { margin: 0.5em 0; }
 .flow .name { font-weight: 700; }
 .flow .what { display: block; color: var(--muted); font-size: 0.9rem; font-weight: 400; }
 .flow .time { color: var(--muted); font-size: 0.85rem; white-space: nowrap; }
-.flow li.break a { background: #f4efe3; border-style: dashed; }
 
 /* 단계 */
 .step { scroll-margin-top: 110px; margin-top: 28px; }

@@ -14,7 +14,7 @@
   <nav class="step-index" id="step-index" aria-label="꼭지 바로가기"></nav>
 
   <section class="step" id="intro">
-    <div class="step-head"><h2>① 도입</h2><span class="time">0:00–0:10</span></div>
+    <div class="step-head"><h2>① 도입</h2><span class="time">0:00–0:15</span></div>
     <h3>학생 입장에서 개념도 앱을 써 봅니다</h3>
     <p><span data-demo></span></p>
     <h3>이 앱은 교사가 말로 만들었습니다</h3>
@@ -22,7 +22,7 @@
   </section>
 
   <section class="step" id="terms">
-    <div class="step-head"><h2>② 용어</h2><span class="time">0:10–0:25</span></div>
+    <div class="step-head"><h2>② 용어</h2><span class="time">0:15–0:30</span></div>
     <p>AI 코딩 앱에서 자주 보는 말을 네 묶음으로 익힙니다.</p>
     <ul>
       <li>대화 단위: 세션, 컨텍스트, 토큰, 한도</li>
@@ -34,7 +34,7 @@
   </section>
 
   <section class="step" id="setup">
-    <div class="step-head"><h2>③ 준비</h2><span class="time">0:25–0:35</span></div>
+    <div class="step-head"><h2>③ 준비</h2><span class="time">0:30–0:40</span></div>
     <h3>Antigravity를 설치하고 폴더를 엽니다</h3>
     <div class="table-wrap">
       <table>
@@ -59,7 +59,7 @@
   </section>
 
   <section class="step" id="plan">
-    <div class="step-head"><h2>④ 기획</h2><span class="time">0:35–0:55</span></div>
+    <div class="step-head"><h2>④ 기획</h2><span class="time">0:40–1:05</span></div>
     <h3>바로 만들지 말고 빈틈부터 묻게 합니다</h3>
     <p>AI는 내 교실 사정을 모릅니다. grill-me가 빈틈을 하나씩 묻고, 질문마다 추천 답을 함께 줍니다. 맞으면 "추천대로", 다르면 내 답을 적습니다.</p>
     <div data-prompts="P2"></div>
@@ -67,16 +67,6 @@
     <div data-prompts="P3"></div>
     <div class="note pink"><p>학생 이름·성적·생활기록부 원문은 넣지 않습니다. 예시 자료는 지어낸 이름으로 만듭니다.</p></div>
     <div data-stuck="plan"></div>
-  </section>
-
-  <section class="step" id="break">
-    <div class="step-head"><h2>쉬는 시간</h2><span class="time">0:55–1:05</span></div>
-    <h3>GitHub와 Cloudflare에 가입합니다</h3>
-    <p>
-      <a class="btn" href="https://github.com/signup" target="_blank" rel="noopener">GitHub 가입</a>
-      <a class="btn" href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener">Cloudflare 가입</a>
-    </p>
-    <p class="muted small">가입이 늦어지면 ⑥ 배포를 건너뛰고 HTML 파일을 게시판에 올리면 됩니다.</p>
   </section>
 
   <section class="step" id="build">
@@ -103,6 +93,12 @@
     <div class="step-head"><h2>⑥ 배포</h2><span class="time">1:35–1:50</span> <span class="skip">시간이 없으면 건너뜁니다</span></div>
     <h3>올리기 전에 세 가지를 확인합니다</h3>
     <div data-sub="올리기 전에 세 가지를 확인합니다"></div>
+    <h3>GitHub와 Cloudflare에 가입합니다</h3>
+    <p>
+      <a class="btn" href="https://github.com/signup" target="_blank" rel="noopener">GitHub 가입</a>
+      <a class="btn" href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener">Cloudflare 가입</a>
+    </p>
+    <p class="muted small">가입이 늦어지면 ⑥ 배포를 건너뛰고 HTML 파일을 게시판에 올리면 됩니다.</p>
     <h3>GitHub에 올리고 Cloudflare로 엽니다</h3>
     <div data-prompts="P7"></div>
     <div class="note green"><p>건너뛸 때는 앱의 HTML 파일을 ⑦에서 게시판에 바로 올립니다.</p></div>
@@ -136,7 +132,7 @@
   const SRC = window.SOURCE;
   const byId = Object.fromEntries(SRC.prompts.map((p) => [p.id, p]));
 
-  document.getElementById('step-index').replaceChildren(...C.flow.filter((f) => !f.isBreak)
+  document.getElementById('step-index').replaceChildren(...C.flow
     .map((f) => el('a', { href: '#' + f.id, text: f.no + ' ' + f.name })));
 
   document.querySelectorAll('[data-prompts]').forEach((box) => {
