@@ -4,7 +4,7 @@
 
 | 폴더 | Cloudflare Pages 프로젝트 | 하는 일 |
 | --- | --- | --- |
-| `site/` | 본 사이트 | 페이지(`public/`: 복사할 프롬프트, 예비 자료, 게시판), 게시판 API(`functions/api/`). 예전 주소 `/`, `/guide`, `/terms`는 `public/_redirects`로 `/prompts`에 보낸다 |
+| `site/` | 본 사이트 | 페이지(`public/`: 참고용 프롬프트 예시, 용어 정리, 예비 자료, 게시판), 게시판 API(`functions/api/`). 예전 주소 `/`, `/guide`는 `public/_redirects`로 `/prompts`에 보낸다 |
 | `apps/` | 파일 주소 | 게시판에 올린 HTML을 `/f/<id>`로 연다. 게시판과 출처가 달라서 올린 스크립트가 게시판을 건드리지 못한다 |
 
 두 프로젝트가 D1 데이터베이스 `vibe-board` 하나를 함께 쓴다(`schema.sql`). 글·댓글·HTML 파일(1MB 이하, `.html`만)이 모두 D1에 들어간다.
@@ -12,7 +12,7 @@
 ## 글 내용 고치기
 
 - 게시판 이름, 내려받기 목록: `site/public/js/content.js`
-- 복사 문장(프롬프트 P1~P8, 막힐때.md의 zip 풀기·오류 보고·올리기 전 점검)과 예비 스킬 zip: `../실습자료`의 정본에서 만든다. 정본이 바뀌면 `npm run sync`로 `site/public/js/source.js`와 `site/public/downloads/*.zip`을 다시 만들고 커밋한다(코드 블록 안 글자 그대로 옮긴다)
+- 복사 문장(프롬프트 P1~P8, 막힐때.md의 zip 풀기·오류 보고·올리기 전 점검), 용어(용어정리.md), 예비 스킬 zip: `../실습자료`의 정본에서 만든다. 정본이 바뀌면 `npm run sync`로 `site/public/js/source.js`와 `site/public/downloads/*.zip`을 다시 만들고 커밋한다(코드 블록 안 글자 그대로 옮긴다)
 
 ## 게시판 쓰는 법
 

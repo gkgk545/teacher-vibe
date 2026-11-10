@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>용어 정리 · 바이브코딩 연수</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header id="site-header"></header>
+<main class="wrap">
+  <h1>용어 정리</h1>
+  <div class="term-groups" id="terms"></div>
+</main>
+<script src="/js/source.js"></script>
+<script src="/js/content.js"></script>
+<script src="/js/common.js"></script>
+<script>
+(function () {
+  const el = window.SITE.el;
+  // 정본에서 만든 HTML(굵게·코드만 들어 있다)을 넣는다.
+  const html = (tag, cls, markup) => { const n = el(tag, { class: cls }); n.innerHTML = markup; return n; };
+  document.getElementById('terms').replaceChildren(...window.SOURCE.terms.map((g) => el('section', { class: 'card term-group' }, [
+    el('h3', { text: g.group }),
+    el('dl', {}, g.items.flatMap((t) => [
+      el('dt', { text: t.term }),
+      html('dd', null, t.desc),
+      t.analogy ? html('dd', 'analogy', '<span>교실 비유</span> ' + t.analogy) : null,
+    ])),
+    g.notes ? html('div', 'term-notes', g.notes) : null,
+  ])));
+})();
+</script>
+</body>
+</html>

@@ -142,6 +142,7 @@ details.stuck .prompt pre { font-size: 0.92rem; }
 .term-group:nth-child(3) { background: var(--yellow); }
 .term-group:nth-child(4) { background: var(--pink); }
 .term-group { border: 0; box-shadow: none; }
+.term-group:nth-child(5) { background: #efe9f8; }
 
 /* 게시판 */
 .board-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }

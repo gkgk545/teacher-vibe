@@ -1,4 +1,4 @@
-// 실습자료 정본에서 복사 문장(프롬프트 P1~P8, 막힐때.md의 P 번호 없는 문장 세 개)을 뽑아
+// 실습자료 정본에서 복사 문장(프롬프트 P1~P8, 막힐때.md의 P 번호 없는 문장 세 개)과 용어(용어정리.md)를 뽑아
 // site/public/js/source.js 를 만들고, 예비 스킬 zip을 site/public/downloads/ 로 옮긴다.
 // 복사 문장은 코드 블록(또는 인라인 코드) 안 글자를 그대로 옮긴다. 정본이 바뀌면 다시 실행하고 커밋한다.
 //   사용: npm run sync   (실습자료 폴더 위치를 바꾸려면: node scripts/sync-content.mjs <실습자료 경로>)
@@ -71,14 +71,40 @@ function parseExtras() {
   });
 }
 
+// 용어정리.md: "## 1. 대화와 기억" 같은 번호 묶음. 표 줄은 용어(교실 비유 칸은 비어 있을 수 있다), 나머지 글은 "기억할 것" 문단.
+// 문단 안의 **굵게**와 `코드`만 HTML로 바꾼다.
+const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const inline = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/`([^`]+)`/g, '<code>$1</code>');
+const cells = (line) => line.trim().replace(/^\||\|$/g, '').split('|').map((c) => c.trim());
+
+function parseTerms() {
+  const terms = sections(read('용어정리.md')).filter((s) => /^\d+\./.test(s.title)).map((s) => {
+    const group = s.title.replace(/^\d+\.\s*/, '').split(':')[0].trim();
+    const items = [];
+    const notes = [];
+    for (const line of s.lines) {
+      if (line.startsWith('|')) {
+        const c = cells(line);
+        if (c[0] === '용어' || /^-+$/.test(c[0])) continue;
+        items.push({ term: c[0], desc: inline(c[1]), analogy: c[2] ? inline(c[2]) : '' });
+      } else if (line.trim()) notes.push(`<p>${inline(line.trim())}</p>`);
+    }
+    if (!items.length) throw new Error(`용어정리.md '${s.title}'에 용어 표가 없습니다`);
+    return { group, items, notes: notes.join('') };
+  });
+  if (!terms.length) throw new Error('용어정리.md에서 용어 묶음을 찾지 못했습니다');
+  return terms;
+}
+
 const prompts = parsePrompts();
 const extras = parseExtras();
+const terms = parseTerms();
 
 const downloads = join(ROOT, 'site', 'public', 'downloads');
 mkdirSync(downloads, { recursive: true });
 for (const zip of ['skills_agents.zip', 'skills_claude.zip']) copyFileSync(join(SRC, '예비스킬', zip), join(downloads, zip));
 
-const data = { syncedAt: new Date().toISOString().slice(0, 10), prompts, extras };
+const data = { syncedAt: new Date().toISOString().slice(0, 10), prompts, extras, terms };
 const header = '// 자동 생성: scripts/sync-content.mjs 가 ../실습자료 정본에서 만든다. 직접 고치지 않는다.\n';
 writeFileSync(join(ROOT, 'site', 'public', 'js', 'source.js'), `${header}window.SOURCE = ${JSON.stringify(data, null, 1)};\n`);
-console.log(`프롬프트 ${prompts.length}개(블록 ${prompts.reduce((n, p) => n + p.blocks.length, 0)}), 그 밖의 문장 ${extras.map((e) => e.name).join(' / ')}, zip 2개`);
+console.log(`프롬프트 ${prompts.length}개(블록 ${prompts.reduce((n, p) => n + p.blocks.length, 0)}), 그 밖의 문장 ${extras.map((e) => e.name).join(' / ')}, 용어 ${terms.length}묶음 ${terms.reduce((n, g) => n + g.items.length, 0)}개, zip 2개`);
