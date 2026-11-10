@@ -24,7 +24,7 @@
   ])));
   document.getElementById('links').replaceChildren(...C.links.flatMap((l) => [
     el('h2', { text: l.title }),
-    el('div', { class: 'hero-actions' }, [el('a', { class: 'btn', href: l.href, target: '_blank', rel: 'noopener', text: l.label })]),
+    el('div', { class: 'hero-actions' }, l.items.map((i) => el('a', { class: 'btn', href: i.href, target: '_blank', rel: 'noopener', text: i.label }))),
   ]));
 })();
 </script>
