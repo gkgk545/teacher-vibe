@@ -4,7 +4,7 @@
   const NAV = [
     { href: '/prompts', label: '참고용 프롬프트 예시' },
     { href: '/terms', label: '용어 정리' },
-    { href: '/downloads', label: '예비 자료' },
+    { href: '/downloads', label: '자료 모음' },
     ...Object.entries(C.boards).map(([key, label]) => ({ href: '/board?b=' + key, label: '게시판(' + label + ')' })),
   ];
 

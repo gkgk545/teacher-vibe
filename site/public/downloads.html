@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>예비 자료 · 바이브코딩 연수</title>
+<title>자료 모음 · 바이브코딩 연수</title>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header id="site-header"></header>
 <main class="wrap">
-  <h1>예비 자료</h1>
+  <h1>자료 모음</h1>
+  <h2>예비자료(스킬)</h2>
   <div class="hero-actions" id="zips"></div>
+  <div id="links"></div>
 </main>
 <script src="/js/content.js"></script>
 <script src="/js/common.js"></script>
@@ -20,6 +22,10 @@
   document.getElementById('zips').replaceChildren(...C.downloads.map((d) => el('a', { class: 'btn primary', href: d.file, download: d.label }, [
     d.label, el('span', { class: 'small', style: 'font-weight:400', text: ' · ' + d.who }),
   ])));
+  document.getElementById('links').replaceChildren(...C.links.flatMap((l) => [
+    el('h2', { text: l.title }),
+    el('div', { class: 'hero-actions' }, [el('a', { class: 'btn', href: l.href, target: '_blank', rel: 'noopener', text: l.label })]),
+  ]));
 })();
 </script>
 </body>
