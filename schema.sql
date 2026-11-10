@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS comments (
   board      TEXT NOT NULL,
   name       TEXT NOT NULL,
   body       TEXT NOT NULL,
+  pw_hash    TEXT,                   -- 댓글을 지울 때 쓰는 비밀번호(소금:SHA-256). 2026-11-10 전 댓글은 비어 있다
   created_at INTEGER NOT NULL
 );
 CREATE INDEX IF NOT EXISTS comments_board_created ON comments (board, created_at);

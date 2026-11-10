@@ -18,7 +18,7 @@ export async function onRequestGet({ request, env }) {
       'SELECT id, name, app_name, subject, intro, link, file_id, file_name, created_at FROM posts WHERE board = ? ORDER BY created_at DESC',
     ).bind(board),
     env.DB.prepare(
-      'SELECT id, post_id, name, body, created_at FROM comments WHERE board = ? ORDER BY created_at ASC',
+      'SELECT id, post_id, name, body, pw_hash IS NOT NULL AS has_pw, created_at FROM comments WHERE board = ? ORDER BY created_at ASC',
     ).bind(board),
   ]);
 

@@ -15,7 +15,10 @@ export const LIMITS = {
   intro: 200,
   link: 500,
   body: 300,
+  password: 20,
 };
+
+export const MIN_PASSWORD = 4;
 
 export function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -50,6 +53,23 @@ export function clean(value, field, label, { required = true } = {}) {
   if (!text) return required ? { error: `${label}을(를) 적어 주세요.` } : { value: '' };
   if (text.length > LIMITS[field]) return { error: `${label}은(는) ${LIMITS[field]}자까지 적을 수 있습니다.` };
   return { value: text };
+}
+
+// 댓글 비밀번호. 소금을 붙인 SHA-256으로 저장한다("소금:해시", 16진수).
+const hex = (buf) => Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, '0')).join('');
+async function digest(salt, password) {
+  return hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(salt + ':' + password)));
+}
+
+export async function hashPassword(password) {
+  const salt = hex(crypto.getRandomValues(new Uint8Array(16)));
+  return `${salt}:${await digest(salt, password)}`;
+}
+
+export async function checkPassword(password, stored) {
+  if (!stored || !password) return false;
+  const [salt, hash] = stored.split(':');
+  return (await digest(salt, String(password))) === hash;
 }
 
 export function bumpVersion(env, board) {

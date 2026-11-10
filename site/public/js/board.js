@@ -14,6 +14,7 @@
   let pollTimer = null;
   let renderWaiting = false;
   const openComments = new Set();
+  const deleting = new Set(); // 비밀번호 칸을 열어 둔 댓글
   const drafts = {};
 
   function session(key, value) {
@@ -150,11 +151,7 @@
   function postCard(p) {
     const open = openComments.has(p.id);
     const commentsBox = el('div', { class: 'comments', hidden: !open }, [
-      ...p.comments.map((c) => el('div', { class: 'comment' }, [
-        el('b', { text: c.name }), c.body,
-        el('span', { class: 'when', text: ago(c.created_at) }),
-        adminCode ? el('button', { type: 'button', class: 'btn small danger', style: 'margin-left:6px', text: '삭제', onclick: () => removeComment(c) }) : null,
-      ])),
+      ...p.comments.map(commentRow),
       readOnly ? null : commentForm(p),
     ]);
     const toggle = el('button', {
@@ -183,24 +180,67 @@
     ]);
   }
 
+  // 댓글 한 줄. 비밀번호를 넣어 단 댓글은 누구나 '삭제'를 눌러 비밀번호로 지운다. 관리 모드는 바로 지운다.
+  function commentRow(c) {
+    const canDelete = adminCode || c.has_pw;
+    const row = el('div', { class: 'comment' }, [
+      el('b', { text: c.name }), c.body,
+      el('span', { class: 'when', text: ago(c.created_at) }),
+      canDelete ? el('button', {
+        type: 'button', class: 'btn small danger', style: 'margin-left:6px', text: '삭제',
+        onclick: () => {
+          if (adminCode) { removeComment(c); return; }
+          if (deleting.has(c.id)) deleting.delete(c.id); else deleting.add(c.id);
+          render();
+          if (deleting.has(c.id)) document.getElementById('del-' + c.id)?.focus();
+        },
+      }) : null,
+    ]);
+    if (adminCode || !deleting.has(c.id)) return row;
+    const pw = el('input', { id: 'del-' + c.id, type: 'password', maxlength: '20', placeholder: '비밀번호', 'aria-label': '댓글 비밀번호', autocomplete: 'off', required: true });
+    const submit = el('button', { type: 'submit', class: 'btn small danger', text: '지우기' });
+    const form = el('form', { class: 'comment-form' }, [el('div', { class: 'row' }, [pw, submit])]);
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submit.disabled = true;
+      try {
+        await api('/api/comments/' + c.id, {
+          method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: pw.value }),
+        });
+        deleting.delete(c.id);
+        document.activeElement && document.activeElement.blur();
+        renderWaiting = false;
+        toast('댓글을 지웠습니다');
+        await load();
+      } catch (err) {
+        toast(err.message);
+        submit.disabled = false;
+      }
+    });
+    return el('div', {}, [row, form]);
+  }
+
   function commentForm(p) {
     const d = drafts[p.id] || {};
     const name = el('input', { type: 'text', maxlength: '20', placeholder: '이름', 'aria-label': '이름', required: true });
+    const pw = el('input', { type: 'password', maxlength: '20', minlength: '4', placeholder: '비밀번호(삭제용)', 'aria-label': '비밀번호(삭제용)', autocomplete: 'off', required: true });
     const body = el('input', { type: 'text', maxlength: '300', placeholder: '댓글', 'aria-label': '댓글', required: true });
     name.value = d.name || local('myName') || '';
+    pw.value = d.pw || '';
     body.value = d.body || '';
-    const save = () => { drafts[p.id] = { name: name.value, body: body.value }; };
+    const save = () => { drafts[p.id] = { name: name.value, pw: pw.value, body: body.value }; };
     name.addEventListener('input', save);
+    pw.addEventListener('input', save);
     body.addEventListener('input', save);
     const submit = el('button', { type: 'submit', class: 'btn small primary', text: '남기기' });
-    const form = el('form', { class: 'comment-form' }, [el('div', { class: 'row' }, [name]), el('div', { class: 'row' }, [body, submit])]);
+    const form = el('form', { class: 'comment-form' }, [el('div', { class: 'row' }, [name, pw]), el('div', { class: 'row' }, [body, submit])]);
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       submit.disabled = true;
       try {
         await api('/api/comments', {
           method: 'POST', headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ post_id: p.id, name: name.value, body: body.value }),
+          body: JSON.stringify({ post_id: p.id, name: name.value, body: body.value, password: pw.value }),
         });
         local('myName', name.value.trim());
         delete drafts[p.id];
