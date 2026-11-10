@@ -10,40 +10,16 @@
 <header id="site-header"></header>
 <main class="wrap">
   <h1>예비 자료</h1>
-  <p class="lead">AI에게 맡긴 스킬 설치가 안 될 때 씁니다.</p>
-
-  <h2>예비 스킬 파일(zip)</h2>
-  <div class="card">
-    <p>grill-me, grilling, karpathy-guidelines 스킬 세 개가 들어 있습니다. 내 도구에 맞는 파일 하나를 내려받습니다.</p>
-    <div class="hero-actions" id="zips"></div>
-    <h3>쓰는 법</h3>
-    <div id="howto"></div>
-    <p class="small muted">출처: github.com/mattpocock/skills(MIT), github.com/multica-ai/andrej-karpathy-skills(MIT). 파일 내용은 원 저장소 그대로입니다.</p>
-  </div>
-
-  <h2>강사 시연 앱 완성본</h2>
-  <div class="card">
-    <p id="demo"></p>
-  </div>
+  <div class="hero-actions" id="zips"></div>
 </main>
-<footer id="site-footer"></footer>
-<script src="/js/source.js"></script>
 <script src="/js/content.js"></script>
 <script src="/js/common.js"></script>
 <script>
 (function () {
-  const C = window.CONTENT, S = window.SITE, el = S.el;
+  const C = window.CONTENT, el = window.SITE.el;
   document.getElementById('zips').replaceChildren(...C.downloads.map((d) => el('a', { class: 'btn primary', href: d.file, download: d.label }, [
     d.label, el('span', { class: 'small', style: 'font-weight:400', text: ' · ' + d.who }),
   ])));
-  document.getElementById('howto').replaceChildren(S.html('div', '', window.SOURCE.subs['예비 스킬 파일(zip) 쓰는 법']));
-  S.onLevel(() => {
-    const box = document.getElementById('demo');
-    box.replaceChildren(...Object.values(C.levels).map((info) => el('p', {}, S.isPending(info.demoUrl)
-      ? [info.label + ': ' + info.demo + ' ', el('span', { class: 'muted', text: '(주소 준비 중)' })]
-      : [info.label + ': ', el('a', { href: info.demoUrl, target: '_blank', rel: 'noopener', text: info.demo }),
-        ' · ', el('a', { href: info.demoMakeUrl, target: '_blank', rel: 'noopener', text: '만들기 모드(노트북)' })])));
-  });
 })();
 </script>
 </body>

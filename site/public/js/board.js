@@ -1,9 +1,10 @@
-// 공유 게시판 화면. 입장 코드는 이 기기 브라우저에만 저장한다.
+// 공유 게시판 화면. 누구나 보고 쓸 수 있고, 관리 코드(주소 끝에 &admin)로 지운다.
 (function () {
   const C = window.CONTENT, S = window.SITE, el = S.el;
   const params = new URLSearchParams(location.search);
-  const board = C.levels[params.get('b')] ? params.get('b') : S.level;
-  const label = C.levels[board].label;
+  const board = C.boards[params.get('b')] ? params.get('b') : Object.keys(C.boards)[0];
+  const label = C.boards[board];
+  const boardHref = '/board?b=' + board;
   const POLL_MS = 15000;
   const MAX_FILE = 1024 * 1024;
 
@@ -28,13 +29,10 @@
     } catch (e) { return null; }
   }
 
-  const entryKey = 'entry:' + board;
-  let entryCode = local(entryKey) || '';
   let adminCode = session('admin') || '';
 
   function headers(extra) {
     const h = Object.assign({}, extra);
-    if (entryCode) h['x-entry-code'] = entryCode;
     if (adminCode) h['x-admin-code'] = adminCode;
     return h;
   }
@@ -65,39 +63,27 @@
     return (d.getMonth() + 1) + '월 ' + d.getDate() + '일';
   }
 
-  // 입장
+  // 관리 코드 입력
   function showEntry(message) {
     $('board').hidden = true;
     $('entry').hidden = false;
-    $('entry-title').textContent = label + (adminLogin ? ' 게시판 관리' : ' 공유 게시판');
+    $('entry-title').textContent = label + ' 게시판 관리';
     $('entry-error').textContent = message || '';
     stopPolling();
   }
 
-  // 주소 끝에 &admin 을 붙이면 같은 상자에서 관리 코드를 받는다.
   const adminLogin = params.has('admin') && !adminCode;
-  if (adminLogin) {
-    $('entry-label').textContent = '관리 코드';
-    $('entry-help').textContent = '강사용 관리 모드입니다.';
-    $('entry-code').type = 'password';
-    $('entry-code').removeAttribute('inputmode');
-  }
 
   $('entry-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const code = $('entry-code').value.trim();
-    if (adminLogin) adminCode = code; else entryCode = code;
+    adminCode = $('entry-code').value.trim();
     try {
       const data = await api('/api/enter', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ board }) });
-      if (adminLogin) {
-        if (!data.admin) throw new Error('관리 코드가 맞지 않습니다.');
-        session('admin', adminCode);
-      } else {
-        local(entryKey, entryCode);
-      }
+      if (!data.admin) throw new Error('관리 코드가 맞지 않습니다.');
+      session('admin', adminCode);
       showBoard();
     } catch (err) {
-      if (adminLogin) adminCode = ''; else entryCode = '';
+      adminCode = '';
       $('entry-error').textContent = err.message;
     }
   });
@@ -106,7 +92,6 @@
     $('entry').hidden = true;
     $('board').hidden = false;
     $('board-title').textContent = label + ' 공유 게시판';
-    $('board-notice').textContent = C.boardNotice;
     $('admin-bar').hidden = !adminCode;
     version = null;
     load();
@@ -123,12 +108,7 @@
       setReadOnly(data.readOnly && !adminCode);
       requestRender();
     } catch (err) {
-      if (err.status === 403) {
-        if (adminCode) { adminCode = ''; session('admin', null); }
-        entryCode = '';
-        local(entryKey, null);
-        showEntry('입장 코드를 다시 넣어 주세요.');
-      }
+      // 네트워크가 잠깐 끊긴 경우: 다음 확인 때 다시 불러온다.
     }
   }
 
@@ -136,7 +116,8 @@
   let readOnly = false;
   function setReadOnly(value) {
     readOnly = Boolean(value);
-    $('board-notice').textContent = readOnly ? C.boardClosedNotice : C.boardNotice;
+    $('board-notice').textContent = C.boardClosedNotice;
+    $('board-notice').hidden = !readOnly;
     $('open-compose').hidden = readOnly;
     if (readOnly) $('compose').hidden = true;
   }
@@ -308,16 +289,13 @@
   });
   $('admin-exit').addEventListener('click', () => {
     session('admin', null);
-    location.href = S.boardHref();
+    location.href = boardHref;
   });
 
   function start() {
     if (adminLogin) showEntry();
-    else if (entryCode || adminCode) showBoard();
-    else showEntry();
+    else showBoard();
   }
 
-  // 머리말에서 학교급을 바꾸면 그 학교급 게시판으로 옮긴다.
-  S.onLevel((level) => { if (level !== board) location.href = S.boardHref(); });
   start();
 })();

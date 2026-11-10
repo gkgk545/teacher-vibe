@@ -13,7 +13,5 @@ binding = "DB"
 database_name = "vibe-board"
 database_id = "8d47421b-af97-4eca-94f9-a707ab2c0d81"
 
-# 입장 코드·관리 코드는 비밀 값으로 둔다(저장소에 넣지 않는다).
-#   npx wrangler pages secret put ENTRY_CODE_MIDDLE --project-name <사이트프로젝트>
-#   npx wrangler pages secret put ENTRY_CODE_HIGH   --project-name <사이트프로젝트>
-#   npx wrangler pages secret put ADMIN_CODE        --project-name <사이트프로젝트>
+# 관리 코드는 비밀 값으로 둔다(저장소에 넣지 않는다).
+#   npx wrangler pages secret put ADMIN_CODE --project-name <사이트프로젝트>

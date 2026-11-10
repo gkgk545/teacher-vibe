@@ -1,8 +1,9 @@
 // 게시판 API가 함께 쓰는 도구. functions/ 밖에 두어 경로로 잡히지 않게 한다.
+// 게시판은 입장 코드 없이 누구나 보고 쓴다(2026-11-10 강사 결정). 지우기만 관리 코드가 필요하다.
 
 export const BOARDS = {
-  middle: { label: '중학교', codeVar: 'ENTRY_CODE_MIDDLE' },
-  high: { label: '고등학교', codeVar: 'ENTRY_CODE_HIGH' },
+  middle: { label: '중학교' },
+  high: { label: '고등학교' },
 };
 
 export const MAX_FILE_BYTES = 1024 * 1024;
@@ -30,15 +31,6 @@ export function fail(message, status = 400) {
 export function isAdmin(request, env) {
   const code = request.headers.get('x-admin-code') || '';
   return Boolean(env.ADMIN_CODE) && code === env.ADMIN_CODE;
-}
-
-// 입장 코드가 맞는지 본다. 관리 코드는 모든 보드에 들어갈 수 있다.
-export function canEnter(request, env, board) {
-  if (!BOARDS[board]) return false;
-  if (isAdmin(request, env)) return true;
-  const expected = env[BOARDS[board].codeVar];
-  const code = (request.headers.get('x-entry-code') || '').trim();
-  return Boolean(expected) && code === expected;
 }
 
 // READ_ONLY 값이 있으면 글쓰기·댓글을 막는다(관리 코드는 그대로 쓸 수 있다). 연수가 끝난 뒤 게시판을 닫을 때 쓴다.

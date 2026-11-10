@@ -1,47 +1,11 @@
-// 모든 페이지가 함께 쓰는 머리말·바닥글·학교급 선택·복사 버튼.
+// 모든 페이지가 함께 쓰는 머리말과 복사 버튼.
 (function () {
   const C = window.CONTENT;
   const NAV = [
-    { href: '/', label: '첫 화면' },
-    { href: '/guide', label: '단계별 안내' },
     { href: '/prompts', label: '복사할 프롬프트' },
-    { href: '/terms', label: '용어 정리' },
     { href: '/downloads', label: '예비 자료' },
+    ...Object.entries(C.boards).map(([key, label]) => ({ href: '/board?b=' + key, label: '게시판(' + label + ')' })),
   ];
-  const listeners = [];
-
-  function store(key, value) {
-    try {
-      if (value === undefined) return localStorage.getItem(key);
-      localStorage.setItem(key, value);
-    } catch (e) { return null; }
-  }
-
-  function readLevel() {
-    const params = new URLSearchParams(location.search);
-    const fromUrl = params.get('level') || params.get('b');
-    if (C.levels[fromUrl]) { store('level', fromUrl); return fromUrl; }
-    const saved = store('level');
-    if (C.levels[saved]) return saved;
-    // 저장된 선택이 없으면 아직 끝나지 않은 가장 이른 연수의 학교급
-    const today = new Date().toISOString().slice(0, 10);
-    const keys = Object.keys(C.levels);
-    return keys.find((k) => C.levels[k].day >= today) || keys[keys.length - 1];
-  }
-
-  let level = readLevel();
-
-  function setLevel(next) {
-    if (!C.levels[next] || next === level) return;
-    level = next;
-    store('level', next);
-    renderHeader();
-    listeners.forEach((fn) => fn(level));
-  }
-
-  function isPending(text) {
-    return typeof text !== 'string' || /^\{\{.*\}\}$/.test(text.trim());
-  }
 
   function el(tag, attrs, children) {
     const node = document.createElement(tag);
@@ -59,36 +23,18 @@
     return node;
   }
 
-  function boardHref() { return '/board?b=' + level; }
-
   function renderHeader() {
     const header = document.getElementById('site-header');
     if (!header) return;
-    const clean = (p) => p.replace(/(index)?(\.html)?$/, '') || '/';
-    const path = clean(location.pathname);
-    const navLink = (item) => el('a', { href: item.href, text: item.label, 'aria-current': path === clean(item.href) ? 'page' : null });
-    const switcher = el('div', { class: 'level-switch', role: 'group', 'aria-label': '학교급' },
-      Object.entries(C.levels).map(([key, info]) => el('button', {
-        type: 'button', 'aria-pressed': String(key === level), text: info.label, onclick: () => setLevel(key),
-      })));
-    const board = el('a', { href: boardHref(), class: 'board-link', text: '공유 게시판', 'aria-current': path === '/board' ? 'page' : null });
-    const nav = el('nav', { class: 'site-nav', 'aria-label': '사이트 메뉴' }, [
-      ...NAV.slice(0, 1).map(navLink), board, ...NAV.slice(1).map(navLink),
-    ]);
+    const clean = (p) => p.replace(/(\.html)?$/, '');
+    const here = clean(location.pathname) + location.search.replace(/&.*$/, '');
+    const nav = el('nav', { class: 'site-nav', 'aria-label': '사이트 메뉴' }, NAV.map((item) => el('a', {
+      href: item.href, text: item.label, 'aria-current': here === item.href || (clean(location.pathname) === item.href) ? 'page' : null,
+    })));
     header.className = 'site-header';
     header.replaceChildren(el('div', { class: 'wrap' }, [
-      el('div', { class: 'top' }, [el('a', { class: 'brand', href: '/', text: '바이브코딩 연수' }), switcher]),
+      el('div', { class: 'top' }, [el('a', { class: 'brand', href: '/prompts', text: '바이브코딩 연수' })]),
       nav,
-    ]));
-  }
-
-  function renderFooter() {
-    const footer = document.getElementById('site-footer');
-    if (!footer) return;
-    footer.className = 'site-footer';
-    footer.replaceChildren(el('div', { class: 'wrap' }, [
-      el('p', { text: C.title + ' · 강사 ' + C.instructor }),
-      el('p', { text: '학생 이름·성적·생활기록부 원문 같은 개인정보는 AI에 넣지 않습니다.' }),
     ]));
   }
 
@@ -119,54 +65,22 @@
     return btn;
   }
 
-  const STEP_NAMES = Object.fromEntries(C.flow.map((f) => [f.id, (f.no ? f.no + ' ' : '') + f.name]));
-
-  // 프롬프트 상자. 블록이 여럿이면(P6 커밋할 때 / 되돌릴 때) 블록마다 복사 버튼을 단다.
-  // when·details는 scripts/sync-content.mjs가 정본에서 만든 HTML이다.
-  function promptBox(p, { showStep = true, showDetails = false } = {}) {
-    const single = p.blocks.length === 1 && !p.blocks[0].label;
+  // 복사 상자. 블록이 여럿이면(P6 커밋할 때 / 되돌릴 때) 블록마다 복사 버튼을 단다.
+  //   p: { id?, name, blocks: [{ label, text }] }
+  function promptBox(p) {
+    const single = p.blocks.length === 1;
     const head = el('div', { class: 'prompt-head' }, [
-      el('div', { class: 'title' }, [
-        el('span', { class: 'id', text: p.id }), p.name,
-        showStep ? el('span', { class: 'where', text: STEP_NAMES[p.step] }) : null,
-      ]),
+      el('div', { class: 'title' }, [p.id ? el('span', { class: 'id', text: p.id }) : null, p.name]),
       single ? copyButton(p.blocks[0].text) : null,
     ]);
     const blocks = p.blocks.flatMap((b) => [
       single ? null : el('div', { class: 'block-head' }, [el('span', { text: b.label }), copyButton(b.text)]),
       el('pre', { text: b.text }),
     ]);
-    const when = p.when ? html('p', 'when', '<b>쓰는 때</b> ' + p.when) : null;
-    const more = showDetails && p.details
-      ? el('details', { class: 'more' }, [el('summary', { text: '도구별 차이와 더 보기' }), html('div', '', p.details)])
-      : null;
-    return el('section', { class: 'prompt', id: p.id }, [head, ...blocks, when, more]);
+    return el('section', { class: 'prompt', id: p.id || null }, [head, ...blocks]);
   }
 
-  // 정본에서 만든 HTML을 넣고, 그 안의 복사 버튼을 살린다.
-  function html(tag, className, markup) {
-    const node = el(tag, { class: className || null });
-    node.innerHTML = markup;
-    node.querySelectorAll('[data-copy]').forEach((btn) => {
-      const text = btn.closest('.prompt').querySelector('pre').textContent;
-      btn.replaceWith(copyButton(text));
-    });
-    node.querySelectorAll('[data-copy-text]').forEach((btn) => {
-      const area = document.createElement('textarea');
-      area.innerHTML = btn.dataset.copyText;
-      btn.replaceWith(copyButton(area.value));
-    });
-    return node;
-  }
-
-  function shownText(text) { return isPending(text) ? '(준비 중)' : text; }
-
-  window.SITE = {
-    get level() { return level; },
-    onLevel(fn) { listeners.push(fn); fn(level); },
-    el, html, copyButton, copyText, promptBox, isPending, shownText, boardHref, store, STEP_NAMES,
-  };
+  window.SITE = { el, copyButton, copyText, promptBox };
 
   renderHeader();
-  renderFooter();
 })();

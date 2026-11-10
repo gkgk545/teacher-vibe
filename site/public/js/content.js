@@ -1,51 +1,13 @@
-// 사이트 글 내용(학교급, 연수 흐름, 내려받기). {{...}} 는 정해지면 채울 자리 표시다(지금은 없음).
-//   꼭지 이름: 공통정보.md 3장, 슬라이드/구성안.md
+// 사이트에 보이는 이름표. 복사 문장은 실습자료 정본에서 만든 js/source.js(window.SOURCE)에 있다.
 window.CONTENT = {
-  title: '교사가 설계하고 AI가 만드는 수업 앱',
-  subtitle: '수업·평가 도구를 기획부터 배포까지',
-  instructor: '곡수초등학교 교사 이진혁',
+  // 게시판(메뉴 순서: 연수 날짜순)
+  boards: { high: '고등학교', middle: '중학교' },
 
-  // 날짜순(고등학교 먼저). 학교급 탭도 이 순서로 보인다.
-  // demoUrl은 둘러보기 모드, demoMakeUrl은 만들기 모드(휴대폰에서는 '큰 화면에서 해 주세요'가 뜬다).
-  levels: {
-    high: {
-      label: '고등학교',
-      date: '2026년 11월 11일(수) 15:50–17:50',
-      school: '효양고등학교',
-      day: '2026-11-11',
-      demo: "통합사회2 '인권보장과 헌법' 개념도 앱",
-      demoUrl: 'https://concept-map-demo.gkgk545.workers.dev/#human-rights/explore',
-      demoMakeUrl: 'https://concept-map-demo.gkgk545.workers.dev/#human-rights/make',
-    },
-    middle: {
-      label: '중학교',
-      date: '2026년 11월 16일(월) 15:30–17:30',
-      school: '안산성호중학교',
-      day: '2026-11-16',
-      demo: "과학 '물질의 상태 변화' 개념도 앱",
-      demoUrl: 'https://concept-map-demo.gkgk545.workers.dev/#state-change/explore',
-      demoMakeUrl: 'https://concept-map-demo.gkgk545.workers.dev/#state-change/make',
-    },
-  },
-
-  // 게시판 위쪽과 단계별 안내 ⑦에 보인다. 닫는 방법은 검수/사이트_점검.md
-  boardNotice: '게시판은 2026년 11월 22일(일)까지 열어 둡니다. 그 뒤에도 내 앱을 보관하려면 HTML 파일을 내 컴퓨터에 저장해 두세요.',
-  boardClosedNotice: '게시판 글쓰기와 댓글을 마쳤습니다. 올린 앱은 계속 열어 볼 수 있습니다.',
-
-  // 연수 흐름(PRD 3장)
-  flow: [
-    { no: '①', id: 'intro', name: '도입', time: '0:00–0:15', what: '학생 입장에서 시연 앱 써 보기' },
-    { no: '②', id: 'terms', name: '용어', time: '0:15–0:30', what: '네 가지 주제로 보는 기본 용어' },
-    { no: '③', id: 'setup', name: '준비', time: '0:30–0:40', what: '도구 설치, 작업 폴더, 스킬 설치' },
-    { no: '④', id: 'plan', name: '기획', time: '0:40–1:05', what: 'grill-me로 기획서 만들기' },
-    { no: '⑤', id: 'build', name: '제작', time: '1:05–1:35', what: '만들고, 확인하고, 고치고, 커밋' },
-    { no: '⑥', id: 'deploy', name: '배포', time: '1:35–1:50', what: 'GitHub·Cloudflare 가입, 저장소 연결, 배포' },
-    { no: '⑦', id: 'share', name: '공유·마무리', time: '1:50–2:00', what: '게시판에 올리고 댓글, 집에서 이어 하기' },
-  ],
-
-  // 프롬프트·용어·막힐 때는 실습자료 정본에서 만든 js/source.js(window.SOURCE)에 있다.
   downloads: [
     { file: '/downloads/skills_agents.zip', label: 'skills_agents.zip', who: 'Antigravity, Codex 앱' },
     { file: '/downloads/skills_claude.zip', label: 'skills_claude.zip', who: 'Claude 앱 Code 탭' },
   ],
+
+  // READ_ONLY로 닫은 게시판에 보이는 문장
+  boardClosedNotice: '글쓰기와 댓글이 닫힌 게시판입니다.',
 };

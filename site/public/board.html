@@ -10,14 +10,13 @@
 <body>
 <header id="site-header"></header>
 <main class="wrap">
-  <!-- 입장 코드 -->
+  <!-- 관리 코드(주소 끝에 &admin) -->
   <section id="entry" class="card entry" hidden>
-    <h1 id="entry-title">공유 게시판</h1>
-    <p class="muted" id="entry-help">연수장에서 안내한 입장 코드를 넣어 주세요.</p>
+    <h1 id="entry-title">게시판 관리</h1>
     <form id="entry-form">
       <div class="field">
-        <label for="entry-code" id="entry-label">입장 코드</label>
-        <input id="entry-code" type="text" inputmode="numeric" autocomplete="off" required>
+        <label for="entry-code">관리 코드</label>
+        <input id="entry-code" type="password" autocomplete="off" required>
       </div>
       <p class="form-error" id="entry-error"></p>
       <button class="btn primary big" type="submit" style="width:100%">들어가기</button>
@@ -30,9 +29,9 @@
       <h1 id="board-title">공유 게시판</h1>
       <button class="btn primary" type="button" id="open-compose">앱 올리기</button>
     </div>
-    <div class="note blue"><p id="board-notice"></p></div>
+    <div class="note blue" id="board-notice" hidden></div>
     <div id="admin-bar" class="note pink" hidden>
-      <p><b>관리 모드</b> · 글과 댓글에 삭제 버튼이 보입니다.
+      <p><b>관리 모드</b>
         <button class="btn small danger" type="button" id="clear-board">이 게시판 모두 비우기</button>
         <button class="btn small" type="button" id="admin-exit">관리 모드 끝내기</button></p>
     </div>
@@ -69,7 +68,6 @@
       <div class="field" id="file-field" hidden>
         <label for="f-file">HTML 파일</label>
         <input id="f-file" name="file" type="file" accept=".html,text/html">
-        <span class="hint">.html 파일 하나, 1MB까지. 학생 개인정보가 든 파일은 올리지 않습니다.</span>
       </div>
       <p class="form-error" id="compose-error"></p>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -79,10 +77,9 @@
     </form>
 
     <div id="posts" class="posts"></div>
-    <p id="empty" class="empty" hidden>아직 올라온 앱이 없습니다. 첫 앱을 올려 주세요.</p>
+    <p id="empty" class="empty" hidden>아직 올라온 앱이 없습니다.</p>
   </section>
 </main>
-<footer id="site-footer"></footer>
 <script src="/js/content.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/board.js"></script>

@@ -1,5 +1,5 @@
 import {
-  BOARDS, MAX_FILE_BYTES, canEnter, isAdmin, isReadOnly, json, fail, newId, clean, bumpVersion, fileUrl,
+  BOARDS, MAX_FILE_BYTES, isAdmin, isReadOnly, json, fail, newId, clean, bumpVersion, fileUrl,
 } from '../../../lib/board.js';
 
 // 글 목록. ?board=middle&v=3 처럼 지난 버전을 보내면, 바뀐 것이 없을 때 목록 없이 버전만 돌려준다.
@@ -7,7 +7,6 @@ export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const board = url.searchParams.get('board');
   if (!BOARDS[board]) return fail('없는 게시판입니다.', 404);
-  if (!canEnter(request, env, board)) return fail('입장 코드가 맞지 않습니다.', 403);
 
   const meta = await env.DB.prepare('SELECT version FROM board_meta WHERE board = ?').bind(board).first();
   const version = meta ? meta.version : 0;
@@ -43,7 +42,6 @@ export async function onRequestPost({ request, env }) {
   if (!form) return fail('보낸 내용을 읽지 못했습니다.');
   const board = form.get('board');
   if (!BOARDS[board]) return fail('없는 게시판입니다.', 404);
-  if (!canEnter(request, env, board)) return fail('입장 코드가 맞지 않습니다.', 403);
 
   const fields = {};
   for (const [field, label, required] of [
