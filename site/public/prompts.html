@@ -10,12 +10,16 @@
 <header id="site-header"></header>
 <main class="wrap">
   <h1>참고용 프롬프트 예시</h1>
+  <h2>1부 · 나만의 업무 에이전트</h2>
+  <div id="agent"></div>
+  <h2>2부 · 바이브코딩 앱 만들기</h2>
   <div id="prompts"></div>
 </main>
 <script src="/js/source.js"></script>
 <script src="/js/content.js"></script>
 <script src="/js/common.js"></script>
 <script>
+document.getElementById('agent').replaceChildren(...(window.SOURCE.agent || []).map((p) => window.SITE.promptBox(p)));
 document.getElementById('prompts').replaceChildren(...window.SOURCE.prompts.concat(
   window.SOURCE.extras.map((e) => ({ name: e.name, blocks: [{ label: '', text: e.text }] })),
 ).map((p) => window.SITE.promptBox(p)));

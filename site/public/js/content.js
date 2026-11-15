@@ -3,8 +3,10 @@ window.CONTENT = {
   // 게시판(메뉴 순서: 연수 날짜순)
   boards: { high: '고등학교', middle: '중학교' },
 
-  // 자료 모음 페이지(/downloads). 예비 스킬 zip 아래에 바로가기 링크를 둔다.
+  // 자료 모음 페이지(/downloads). 1부 실습 zip과 예비 스킬 zip 아래에 바로가기 링크를 둔다.
   downloads: [
+    { file: '/downloads/agent-practice.zip', label: '1부_실습.zip', who: '1부 실습 폴더' },
+    { file: '/downloads/agent-answers.zip', label: '막혔을때_완성본.zip', who: '1부 완성 스킬' },
     { file: '/downloads/skills_agents.zip', label: 'skills_agents.zip', who: 'Antigravity, Codex 앱' },
     { file: '/downloads/skills_claude.zip', label: 'skills_claude.zip', who: 'Claude 앱 Code 탭' },
   ],
