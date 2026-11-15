@@ -5,6 +5,7 @@
     { href: '/prompts', label: '참고용 프롬프트 예시' },
     { href: '/terms', label: '용어 정리' },
     { href: '/downloads', label: '자료 모음' },
+    ...Object.keys(C.boards).map((key) => ({ href: '/board?b=' + key, label: '게시판' })),
   ];
 
   function el(tag, attrs, children) {

@@ -3,7 +3,7 @@
 
 export const BOARDS = {
   middle: { label: '중학교' },
-  high: { label: '고등학교' },
+  // high(고등학교)는 2026-11-16 내림
 };
 
 export const MAX_FILE_BYTES = 1024 * 1024;
