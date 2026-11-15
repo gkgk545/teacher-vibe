@@ -3,6 +3,15 @@ window.SOURCE = {
  "syncedAt": "2026-11-15",
  "agent": [
   {
+   "name": "준비 · Python 확인과 설치",
+   "blocks": [
+    {
+     "label": "",
+     "text": "이 컴퓨터에 Python이 설치되어 있는지 확인해 줘. 없으면 설치해 줘. Windows면 winget으로 설치하고, 안 되면 Microsoft Store로 설치해 줘. Mac이면 기본 python3를 확인해 줘. 끝나면 Python 버전을 보여 주고, Antigravity를 다시 시작해야 하면 알려 줘."
+    }
+   ]
+  },
+  {
    "name": "1단계 · 한 번 시켜 보기",
    "blocks": [
     {
