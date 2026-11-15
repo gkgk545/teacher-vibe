@@ -15,7 +15,7 @@ window.CONTENT = {
       { label: 'multica-ai/andrej-karpathy-skills', href: 'https://github.com/multica-ai/andrej-karpathy-skills' },
       { label: 'mattpocock/skills', href: 'https://github.com/mattpocock/skills' },
     ] },
-    { title: 'PPT 자료', items: [{ label: 'Canva에서 보기', href: 'https://canva.link/hy1111' }] },
+    { title: 'PPT 자료', items: [{ label: 'Canva에서 보기', href: 'https://canva.link/1116sh' }] },
     { title: 'Antigravity 설치', items: [{ label: 'antigravity.google/download', href: 'https://antigravity.google/download' }] },
     { title: 'Cloudflare', items: [{ label: 'dash.cloudflare.com', href: 'https://dash.cloudflare.com' }] },
     { title: 'GitHub', items: [{ label: 'github.com', href: 'https://github.com' }] },
